@@ -1,0 +1,39 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+          
+      - name: GS Commit Message Checker
+         # You may pin to the exact commit or the version.
+         # uses: GsActions/commit-message-checker@8cd0c4dee099abe786912066348f04d9cb28b00d
+        uses: GsActions/commit-message-checker@v1
+        with:
+          # A regex pattern to check if a commit message is valid.
+          pattern: '.*\s?(GRA-\d{5}|RPS-\d{5})\s?.*'
+          # Expression flags change how the expression is interpreted.
+          flags: 'g'
+          # A error message which will be returned in case of an error.
+          error: 'Your commit message does not contain your Jira ID properly!'
+          # Setting this input to true will exclude the Pull Request title from the check.
+          #checkAllCommitMessages: 'true'
+          # you must provide GITHUB_TOKEN to this input if checkAllCommitMessages is true
+          #accessToken: # optional, default is false
