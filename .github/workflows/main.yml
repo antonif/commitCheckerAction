@@ -25,7 +25,7 @@ jobs:
       - name: Commit Message Checker
          # You may pin to the exact commit or the version.
          # uses: GsActions/commit-message-checker@8cd0c4dee099abe786912066348f04d9cb28b00d
-        uses: antonif/commitCheckerAction
+        uses: antonif/commitCheckerAction/src
         with:
           # A regex pattern to check if a commit message is valid.
           pattern: '.*\s?(GRA-\d{5}|RPS-\d{5})\s?.*'
