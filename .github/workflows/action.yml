@@ -43,3 +43,11 @@ jobs:
         with:
           flags: 'g'
           error: 'Test'
+
+
+      - name: Commit Message Checker (with wrong pattern)
+        uses: ./
+        with:
+          pattern: '.*\s?(GRA-\d{5}|RPS-\d{5})\s?.*'
+          flags: 'gá'
+          error: 'Test'
