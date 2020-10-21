@@ -324,7 +324,7 @@ function checkCommitMessages(args) {
             chars += invalidChars[0];
         }
         if (chars !== '') {
-            throw new Error(`FLAGS contains invalid characters "${chars}".`);
+            throw new Error(`FLAGS contains invalid characters "${chars}". \n Use only 'i', 'g', 'm', 's', 'u', 'y'`);
         }
         if (args.error.length === 0) {
             throw new Error(`ERROR not defined.`);
