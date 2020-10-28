@@ -52,7 +52,7 @@ export async function checkCommitMessages(
     chars += invalidChars[0]
   }
   if (chars !== '') {
-    throw new Error(`FLAGS argument contains invalid character(s) "${chars}".)
+    throw new Error(`FLAGS argument contains invalid character(s) "${chars}".\n Use only 'i', 'g', 'm', 's', 'u', 'y')
   }
 
   if (args.error.length === 0) {
