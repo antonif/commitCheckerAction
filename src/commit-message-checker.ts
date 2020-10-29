@@ -42,7 +42,7 @@ export async function checkCommitMessages(
 ): Promise<void> {
   // Check arguments
   if (args.pattern.length === 0) {
-    throw new Error(`No PATTERN is defined! Please define a PATTERN argument to the approriate step.`)
+    throw new Error(`PATTERN not defined.`)
   }
 
   const regex = new RegExp('[^gimsuy]', 'g')
@@ -52,7 +52,7 @@ export async function checkCommitMessages(
     chars += invalidChars[0]
   }
   if (chars !== '') {
-    throw new Error(`FLAGS argument contains invalid character(s) "${chars}".\n Use only 'i', 'g', 'm', 's', 'u', 'y')
+    throw new Error(`FLAGS contains invalid characters "${chars}".`)
   }
 
   if (args.error.length === 0) {
@@ -60,7 +60,7 @@ export async function checkCommitMessages(
   }
 
   if (args.messages.length === 0) {
-    throw new Error(`MESSAGES not defined.`)
+    throw new Error(`MESSAGES tag is not defined.`)
   }
 
   // Check messages
