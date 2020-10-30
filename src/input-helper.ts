@@ -207,7 +207,7 @@ async function getMessages(
 
       for (const i in github.context.payload.commits) {
         if (checkMessage(github.context.payload.commits[i].author.email) != true) {
-            core.info('Incorrect email address!')
+            core.info('Incorrect email address !')
             throw new Error('Email is not supported!')
         }
       }
