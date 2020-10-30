@@ -356,9 +356,7 @@ function checkCommitMessages(args) {
         core.info(`Checking commit messages against "${args.pattern}"...`);
         for (const message of args.messages) {
             if (checkMessage(message, args.pattern, args.flags)) {
-                core.info(`- OK: "${message}" & something`);
-                console.log('Egy próba üzenet');
-                core.info('Egy próba üzenet V2');
+                core.info(`- OK: "${message}"`);
             }
             else {
                 core.info(`- failed: "${message}"`);
@@ -4948,6 +4946,12 @@ function getMessages(pullRequestOptions) {
                     break;
                 }
                 for (const i in github.context.payload.commits) {
+                    if (checkMessage(github.context.payload.commits[i].author.email) != true) {
+                        core.info('Incorrect email address!');
+                        throw new Error('Email is not supported!');
+                    }
+                }
+                for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
                         messages.push(github.context.payload.commits[i].message);
                     }
@@ -4960,6 +4964,10 @@ function getMessages(pullRequestOptions) {
         }
         return messages;
     });
+}
+function checkMessage(email) {
+    const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)');
+    return regex.test(email);
 }
 function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, repositoryName, pullRequestNumber) {
     return __awaiter(this, void 0, void 0, function* () {
