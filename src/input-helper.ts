@@ -224,8 +224,8 @@ async function getMessages(
       throw new Error(`Event "${github.context.eventName}" is not supported.`)
     }
   }
-  var commiteremail: string = github.payload.context.commit.email;
-  core.debug(commiteremail);
+  //var commiteremail: string = github.payload.context.commit.email;
+  //core.debug(commiteremail);
   return messages
 }
 

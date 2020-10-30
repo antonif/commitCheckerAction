@@ -19,11 +19,13 @@
  * Imports
  */
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 
 /**
  * Interface used as arguments for the check function containing the pattern,
  * error message and the messages.
  */
+
 export interface ICheckerArguments {
   pattern: string
   flags: string
@@ -41,6 +43,9 @@ export async function checkCommitMessages(
   args: ICheckerArguments
 ): Promise<void> {
   // Check arguments
+  if (args.pattern.length === 0) {
+    throw new Error(`PATTERN not defined.`)
+  }
   if (args.pattern.length === 0) {
     throw new Error(`PATTERN not defined.`)
   }
@@ -71,6 +76,7 @@ export async function checkCommitMessages(
   for (const message of args.messages) {
     if (checkMessage(message, args.pattern, args.flags)) {
       core.info(`- OK: "${message}"`)
+      core.info(github.payload.context.commit.email)
     } else {
       core.info(`- failed: "${message}"`)
       result = false
