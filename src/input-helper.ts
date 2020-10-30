@@ -40,10 +40,6 @@ export async function getInputs(): Promise<ICheckerArguments> {
 
   core.debug('Get inputs...')
 
-  // Get email pattern
-  /**result.emailpattern = core.getInput('emailpattern', {required: true})
-  core.debug('email patter: ${result.emailpattern}')*/
-
   // Get pattern
   result.pattern = core.getInput('pattern', {required: true})
   core.debug(`pattern: ${result.pattern}`)
@@ -95,11 +91,8 @@ export async function getInputs(): Promise<ICheckerArguments> {
  *
  * @returns   string[]
  */
-/**for(const i in github.context.payload.commits) {
-    if )
-}
 
-function checkMail(
+/**function checkMail(
 ): boolean {
   const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
   return regex.test(github.context.payload.)
@@ -224,8 +217,7 @@ async function getMessages(
       throw new Error(`Event "${github.context.eventName}" is not supported.`)
     }
   }
-  //var commiteremail: string = github.payload.context.commit.email;
-  //core.debug(commiteremail);
+
   return messages
 }
 
