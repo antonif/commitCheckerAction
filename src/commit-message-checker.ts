@@ -76,7 +76,7 @@ export async function checkCommitMessages(
   for (const message of args.messages) {
     if (checkMessage(message, args.pattern, args.flags)) {
       core.info(`- OK: "${message}"`)
-      core.info('something comes HERE')
+      console.log('something comes HERE');
     } else {
       core.info(`- failed: "${message}"`)
       result = false
