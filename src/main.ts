@@ -39,6 +39,7 @@ async function run(): Promise<void> {
 }
 
 core.info('Trying to disable merge...')
+core.info('Trying pull request with new workflow')
 
 /**
  * Main entry point
