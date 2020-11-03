@@ -733,7 +733,6 @@ function run() {
     });
 }
 core.info('Trying to disable merge...');
-core.info('Trying to disable merge...v2');
 /**
  * Main entry point
  */
@@ -4890,7 +4889,7 @@ function getMessages(pullRequestOptions) {
                 }
                 //checking email
                 for (const i in github.context.payload.commits) {
-                    if (checkMessage(github.context.payload.commits[i].author.email) != true) {
+                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
                         core.info('Incorrect email address !');
                         throw new Error('Email is not supported !');
                     }
@@ -4956,7 +4955,7 @@ function getMessages(pullRequestOptions) {
                 }
                 //checking email
                 for (const i in github.context.payload.commits) {
-                    if (checkMessage(github.context.payload.commits[i].author.email) != true) {
+                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
                         core.info('Incorrect email address !');
                         throw new Error('Email is not supported !');
                     }
@@ -4975,7 +4974,7 @@ function getMessages(pullRequestOptions) {
         return messages;
     });
 }
-function checkMessage(email) {
+function checkEmail(email) {
     const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)');
     return regex.test(email);
 }
