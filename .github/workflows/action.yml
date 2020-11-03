@@ -8,11 +8,11 @@ on:
   push:
     branches:
       - main
-      - test-branch-v2
+      - test-branch-final
   pull_request:
     branches:
       - main
-      - test-branch-v2 
+      - test-branch-final
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
