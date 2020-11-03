@@ -732,6 +732,8 @@ function run() {
         }
     });
 }
+core.info('Trying to disable merge...');
+core.info('Trying to disable merge...v2');
 /**
  * Main entry point
  */
@@ -4886,6 +4888,13 @@ function getMessages(pullRequestOptions) {
                 if (!github.context.payload.pull_request) {
                     throw new Error('No pull_request found in the payload.');
                 }
+                //checking email
+                for (const i in github.context.payload.commits) {
+                    if (checkMessage(github.context.payload.commits[i].author.email) != true) {
+                        core.info('Incorrect email address !');
+                        throw new Error('Email is not supported !');
+                    }
+                }
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
@@ -4945,6 +4954,7 @@ function getMessages(pullRequestOptions) {
                     core.debug(' - skipping commits');
                     break;
                 }
+                //checking email
                 for (const i in github.context.payload.commits) {
                     if (checkMessage(github.context.payload.commits[i].author.email) != true) {
                         core.info('Incorrect email address !');

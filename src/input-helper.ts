@@ -120,6 +120,14 @@ async function getMessages(
         throw new Error('No pull_request found in the payload.')
       }
 
+      //checking email
+      for (const i in github.context.payload.commits) {
+              if (checkMessage(github.context.payload.commits[i].author.email) != true) {
+                  core.info('Incorrect email address !')
+                  throw new Error('Email is not supported !')
+              }
+      }
+
       let message = ''
       // Handle pull request title and body
       if (!pullRequestOptions.ignoreTitle) {
@@ -205,6 +213,7 @@ async function getMessages(
         break
       }
 
+      //checking email
       for (const i in github.context.payload.commits) {
         if (checkMessage(github.context.payload.commits[i].author.email) != true) {
             core.info('Incorrect email address !')
