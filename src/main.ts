@@ -40,6 +40,8 @@ async function run(): Promise<void> {
 
 core.info('Trying to disable merge...')
 core.info('Trying to disable merge...v2')
+core.info('Trying to disable merge...v4')
+core.info('Trying to disable merge...v5')
 
 /**
  * Main entry point
