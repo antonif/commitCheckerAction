@@ -321,6 +321,7 @@ exports.checkCommitMessages = void 0;
  * Imports
  */
 const core = __importStar(__webpack_require__(470));
+const github = __importStar(__webpack_require__(469));
 /**
  * Checks commit messages given by args.
  *
@@ -363,6 +364,13 @@ function checkCommitMessages(args) {
                 result = false;
             }
         }
+        //Check author email
+        for (const i in github.context.payload.commits) {
+            if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                core.info('Incorrect email address !');
+                result = false;
+            }
+        }
         // Throw error in case of failed test
         if (!result) {
             throw new Error(args.error);
@@ -380,6 +388,10 @@ exports.checkCommitMessages = checkCommitMessages;
 function checkMessage(message, pattern, flags) {
     const regex = new RegExp(pattern, flags);
     return regex.test(message);
+}
+function checkEmail(email) {
+    const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)');
+    return regex.test(email);
 }
 
 
@@ -4888,12 +4900,12 @@ function getMessages(pullRequestOptions) {
                     throw new Error('No pull_request found in the payload.');
                 }
                 //checking email
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                        core.info('Incorrect email address !');
-                        throw new Error('Email is not supported !');
-                    }
-                }
+                /*for (const i in github.context.payload.commits) {
+                        if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                            core.info('Incorrect email address !')
+                            throw new Error('Email is not supported !')
+                        }
+                }*/
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
@@ -4954,12 +4966,12 @@ function getMessages(pullRequestOptions) {
                     break;
                 }
                 //checking email
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                        core.info('Incorrect email address !');
-                        throw new Error('Email is not supported !');
-                    }
-                }
+                /*for (const i in github.context.payload.commits) {
+                  if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                      core.info('Incorrect email address !')
+                      throw new Error('Email is not supported !')
+                  }
+                }*/
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
                         messages.push(github.context.payload.commits[i].message);
@@ -4974,10 +4986,10 @@ function getMessages(pullRequestOptions) {
         return messages;
     });
 }
-function checkEmail(email) {
-    const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)');
-    return regex.test(email);
-}
+/*function checkEmail(email: string): boolean {
+  const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
+  return regex.test(email)
+  }*/
 function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, repositoryName, pullRequestNumber) {
     return __awaiter(this, void 0, void 0, function* () {
         core.debug('Get messages from pull request...');
