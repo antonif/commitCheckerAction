@@ -39,6 +39,7 @@ async function run(): Promise<void> {
 }
 
 core.info('Trying to disable merge...')
+core.info('Testing reorganized action')
 
 /**
  * Main entry point
