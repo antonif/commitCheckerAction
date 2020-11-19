@@ -82,6 +82,14 @@ export async function checkCommitMessages(
     }
   }
 
+  //Check email
+  for (const i in github.context.payload.commits) {
+          if (checkMail(github.context.payload.commits[i].author.email) != true) {
+              core.info('Incorrect email address !')
+              result = false
+          }
+  }
+
   // Throw error in case of failed test
   if (!result) {
     throw new Error(args.error)
@@ -102,4 +110,9 @@ function checkMessage(
 ): boolean {
   const regex = new RegExp(pattern, flags)
   return regex.test(message)
+}
+
+function checkMail(email: string): boolean {
+  const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
+  return regex.test(email)
 }
