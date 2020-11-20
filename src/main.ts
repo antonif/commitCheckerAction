@@ -38,7 +38,7 @@ async function run(): Promise<void> {
   }
 }
 
-core.info('Trying to disable merge...')
+core.info('Pull request with wring email')
 
 /**
  * Main entry point
