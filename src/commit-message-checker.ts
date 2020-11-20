@@ -83,25 +83,7 @@ export async function checkCommitMessages(
   }
   //Check author email
   checkEmail()
-  /**switch (github.context.eventName) {
-      case 'pull_request': {
-        for (const i in github.context.payload.commits) {
-            if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                core.info('Incorrect email address!')
-                throw new Error('Email is not supported!')
-            }
-        }
-      }
-      case 'push': {
-        for (const i in github.context.payload.commits) {
-            if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                core.info('Incorrect email address!')
-                throw new Error('Email is not supported!')
-            }
-        }
-      }
-  }*/
-
+  
   // Throw error in case of failed test
   if (!result) {
     throw new Error(args.error)
