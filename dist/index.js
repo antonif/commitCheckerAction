@@ -358,6 +358,12 @@ function checkCommitMessages(args) {
         for (const message of args.messages) {
             if (checkMessage(message, args.pattern, args.flags)) {
                 core.info(`- OK: "${message}"`);
+                for (const i in github.context.payload.commits) {
+                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                        core.info('Incorrect email address!');
+                        throw new Error('Email is not supported!');
+                    }
+                }
             }
             else {
                 core.info(`- failed: "${message}"`);
@@ -365,24 +371,24 @@ function checkCommitMessages(args) {
             }
         }
         //Check author email
-        switch (github.context.eventName) {
+        /**switch (github.context.eventName) {
             case 'pull_request': {
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                        core.info('Incorrect email address!');
-                        throw new Error('Email is not supported!');
-                    }
-                }
+              for (const i in github.context.payload.commits) {
+                  if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                      core.info('Incorrect email address!')
+                      throw new Error('Email is not supported!')
+                  }
+              }
             }
             case 'push': {
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                        core.info('Incorrect email address!');
-                        throw new Error('Email is not supported!');
-                    }
-                }
+              for (const i in github.context.payload.commits) {
+                  if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                      core.info('Incorrect email address!')
+                      throw new Error('Email is not supported!')
+                  }
+              }
             }
-        }
+        }*/
         // Throw error in case of failed test
         if (!result) {
             throw new Error(args.error);
