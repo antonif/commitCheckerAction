@@ -38,6 +38,8 @@ async function run(): Promise<void> {
   }
 }
 
+core.info('Pull request with wring email')
+
 /**
  * Main entry point
  */
