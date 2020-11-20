@@ -92,12 +92,6 @@ export async function getInputs(): Promise<ICheckerArguments> {
  * @returns   string[]
  */
 
-/**function checkMail(
-): boolean {
-  const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
-  return regex.test(github.context.payload.)
-}*/
-
 async function getMessages(
   pullRequestOptions: PullRequestOptions
 ): Promise<string[]> {
@@ -119,14 +113,6 @@ async function getMessages(
       if (!github.context.payload.pull_request) {
         throw new Error('No pull_request found in the payload.')
       }
-
-      //checking email
-      /*for (const i in github.context.payload.commits) {
-              if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                  core.info('Incorrect email address !')
-                  throw new Error('Email is not supported !')
-              }
-      }*/
 
       let message = ''
       // Handle pull request title and body
@@ -213,14 +199,6 @@ async function getMessages(
         break
       }
 
-      //checking email
-      /*for (const i in github.context.payload.commits) {
-        if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-            core.info('Incorrect email address !')
-            throw new Error('Email is not supported !')
-        }
-      }*/
-
       for (const i in github.context.payload.commits) {
         if (github.context.payload.commits[i].message) {
           messages.push(github.context.payload.commits[i].message)
@@ -236,11 +214,6 @@ async function getMessages(
 
   return messages
 }
-
-/*function checkEmail(email: string): boolean {
-  const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
-  return regex.test(email)
-  }*/
 
 async function getCommitMessagesFromPullRequest(
   accessToken: string,
