@@ -744,7 +744,7 @@ function run() {
         }
     });
 }
-core.info('Trying to disable merge...');
+core.info('Pull request with wring email');
 /**
  * Main entry point
  */
