@@ -79,7 +79,7 @@ export async function checkCommitMessages(
       for (const i in github.context.payload.commits) {
           if (checkEmail(github.context.payload.commits[i].author.email) != true) {
               core.info('Incorrect email address!')
-              throw new Error('Email is not supported!')
+              throw new Error('Email is not supported !')
           }
       }
     } else {
