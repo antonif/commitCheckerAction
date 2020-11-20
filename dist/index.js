@@ -358,12 +358,6 @@ function checkCommitMessages(args) {
         for (const message of args.messages) {
             if (checkMessage(message, args.pattern, args.flags)) {
                 core.info(`- OK: "${message}"`);
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
-                        core.info('Incorrect email address!');
-                        throw new Error('Email is not supported!');
-                    }
-                }
             }
             else {
                 core.info(`- failed: "${message}"`);
@@ -371,6 +365,7 @@ function checkCommitMessages(args) {
             }
         }
         //Check author email
+        checkEmail();
         /**switch (github.context.eventName) {
             case 'pull_request': {
               for (const i in github.context.payload.commits) {
@@ -407,9 +402,16 @@ function checkMessage(message, pattern, flags) {
     const regex = new RegExp(pattern, flags);
     return regex.test(message);
 }
-function checkEmail(email) {
+function checkEmail() {
     const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)');
-    return regex.test(email);
+    if (github.context.eventName == 'pull_request' || 'push') {
+        for (const i in github.context.payload.commits) {
+            if (regex.test(github.context.payload.commits[i].author.email) != true) {
+                core.info('Incorrect email address!');
+                throw new Error('Email is not supported!');
+            }
+        }
+    }
 }
 
 
