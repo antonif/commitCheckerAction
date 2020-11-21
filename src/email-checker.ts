@@ -9,6 +9,7 @@ export interface ICheckMailArgs {
 export async function checkCommitAuthorEmail(
   args: ICheckMailArgs
 ): Promise<void> {
+   core.info('Starting to check email')
    switch (args.eventType) {
        case 'pull_request': {
         for (const i in github.context.payload.commits) {

@@ -807,6 +807,7 @@ const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
+        core.info('Starting to check email');
         switch (args.eventType) {
             case 'pull_request': {
                 for (const i in github.context.payload.commits) {
