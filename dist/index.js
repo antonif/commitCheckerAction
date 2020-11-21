@@ -807,10 +807,10 @@ const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         core.info(`Event type: "${args.eventType}"`);
+        core.info(`Commits object: "${args.allCommits}"`);
         switch (args.eventType) {
             case 'pull_request': {
                 for (const i in args.allCommits) {
-                    core.info(i);
                     if (checkEmail(args.allCommits[i].author.email) != true) {
                         core.info('Incorrect email address!');
                         throw new Error('Email is not supported!');
