@@ -40,7 +40,7 @@ async function run(): Promise<void> {
     core.setFailed(error)
   }
 }
-
+core.info(`Pull requesting is good`)
 /**
  * Main entry point
  */
