@@ -40,7 +40,7 @@ async function run(): Promise<void> {
     core.setFailed(error)
   }
 }
-
+core.info('Just a testmessage')
 /**
  * Main entry point
  */
