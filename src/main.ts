@@ -21,6 +21,7 @@
 import * as core from '@actions/core'
 import * as inputHelper from './input-helper'
 import * as commitMessageChecker from './commit-message-checker'
+import * as emailChecker from './email-checker'
 
 /**
  * Main function
@@ -28,17 +29,17 @@ import * as commitMessageChecker from './commit-message-checker'
 async function run(): Promise<void> {
   try {
     const checkerArguments = await inputHelper.getInputs()
+    const mailCheckArgs = await inputHelper.getMailInputs()
     if (checkerArguments.messages.length === 0) {
       core.info(`No commits found in the payload, skipping check.`)
     } else {
       await commitMessageChecker.checkCommitMessages(checkerArguments)
+      await emailChecker.checkCommitAuthorEmail(mailCheckArgs)
     }
   } catch (error) {
     core.setFailed(error)
   }
 }
-
-core.info('Pull request with wring email')
 
 /**
  * Main entry point

@@ -22,6 +22,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {graphql} from '@octokit/graphql'
 import {ICheckerArguments} from './commit-message-checker'
+import {ICheckMailArgs} from './email-checker'
 
 export interface PullRequestOptions {
   ignoreTitle: boolean
@@ -35,6 +36,17 @@ export interface PullRequestOptions {
  *
  * @returns   ICheckerArguments
  */
+
+export async function getMailInputs(): Promise<ICheckMailArgs> {
+  const result = ({} as unknown) as ICheckMailArgs
+
+  core.debug('Get authors email')
+  result.eventType = github.context.eventName
+  result.allCommits = github.context.eventName
+
+  return result;
+}
+
 export async function getInputs(): Promise<ICheckerArguments> {
   const result = ({} as unknown) as ICheckerArguments
 

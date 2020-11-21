@@ -81,8 +81,7 @@ export async function checkCommitMessages(
       result = false
     }
   }
-  //Check author email
-  checkEmail()
+
   /**switch (github.context.eventName) {
       case 'pull_request': {
         for (const i in github.context.payload.commits) {
@@ -122,16 +121,4 @@ function checkMessage(
 ): boolean {
   const regex = new RegExp(pattern, flags)
   return regex.test(message)
-}
-
-function checkEmail() {
-  const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
-  if(github.context.eventName == 'pull_request' || 'push') {
-        for (const i in github.context.payload.commits) {
-            if (regex.test(github.context.payload.commits[i].author.email) != true) {
-                core.info('Incorrect email address!')
-                throw new Error('Email is not supported!')
-            }
-        }
-  }
 }
