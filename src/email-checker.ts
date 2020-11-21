@@ -13,7 +13,7 @@ export async function checkCommitAuthorEmail(
    switch (args.eventType) {
        case 'pull_request': {
         for (const i in args.allCommits) {
-            core.info('Email address: "${args.allCommits[i].author.email}"')
+            core.info(i)
             if (checkEmail(args.allCommits[i].author.email) != true) {
                 core.info('Incorrect email address!')
                 throw new Error('Email is not supported!')
