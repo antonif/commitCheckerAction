@@ -804,22 +804,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
-const github = __importStar(__webpack_require__(469));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('Starting to check email');
+        core.info(`Event type: "${args.eventType}"`);
         switch (args.eventType) {
             case 'pull_request': {
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                for (const i in args.allCommits) {
+                    if (checkEmail(args.allCommits[i].author.email) != true) {
                         core.info('Incorrect email address!');
                         throw new Error('Email is not supported!');
                     }
                 }
             }
             case 'push': {
-                for (const i in github.context.payload.commits) {
-                    if (checkEmail(github.context.payload.commits[i].author.email) != true) {
+                for (const i in args.allCommits) {
+                    if (checkEmail(args.allCommits[i].author.email) != true) {
                         core.info('Incorrect email address!');
                         throw new Error('Email is not supported!');
                     }
@@ -4913,7 +4912,7 @@ function getMailInputs() {
         const result = {};
         core.debug('Get authors email');
         result.eventType = github.context.eventName;
-        result.allCommits = github.context.eventName;
+        result.allCommits = github.context.payload.commits;
         return result;
     });
 }

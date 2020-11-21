@@ -42,7 +42,7 @@ export async function getMailInputs(): Promise<ICheckMailArgs> {
 
   core.debug('Get authors email')
   result.eventType = github.context.eventName
-  result.allCommits = github.context.eventName
+  result.allCommits = github.context.payload.commits
 
   return result;
 }
