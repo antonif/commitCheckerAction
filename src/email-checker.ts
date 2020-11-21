@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 
 export interface ICheckMailArgs {
   eventType : string
-  allCommits : typeof github.context.payload.commits.commit[]
+  allCommits : Array<typeof github.context.payload.commits>
 }
 
 export async function checkCommitAuthorEmail(
