@@ -790,9 +790,10 @@ function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         core.info(`Event type: "${args.eventType}"`);
         core.info(`Commits object: "${args.allCommits}"`);
-        core.info(`Username of pullrequest: "${args.pullRequestIn}"`);
+        core.info(`Username of pullrequest: "${args.pullSender}"`);
         switch (args.eventType) {
             case 'pull_request': {
+                core.info(args.pullSender);
                 for (const i in args.allCommits) {
                     if (checkEmail(args.allCommits[i].author.email) != true) {
                         core.info('Incorrect email address!');
@@ -4897,7 +4898,7 @@ function getMailInputs() {
         core.debug('Get authors email');
         result.eventType = github.context.eventName;
         result.allCommits = github.context.payload.commits;
-        result.pullRequestIn = github.context.payload.pull_request;
+        result.pullSender = github.context.payload.user.email;
         return result;
     });
 }
