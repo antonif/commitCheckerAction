@@ -790,6 +790,7 @@ function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         core.info(`Event type: "${args.eventType}"`);
         core.info(`Commits object: "${args.allCommits}"`);
+        core.info(`Username of pullrequest: "${args.pullRequestIn}"`);
         switch (args.eventType) {
             case 'pull_request': {
                 for (const i in args.allCommits) {
@@ -4896,6 +4897,7 @@ function getMailInputs() {
         core.debug('Get authors email');
         result.eventType = github.context.eventName;
         result.allCommits = github.context.payload.commits;
+        result.pullRequestIn = github.context.payload.pull_request;
         return result;
     });
 }
@@ -4988,7 +4990,7 @@ function getMessages(pullRequestOptions) {
                 // Handle pull request commits
                 if (pullRequestOptions.checkAllCommitMessages) {
                     if (!pullRequestOptions.accessToken) {
-                        throw new Error('The `checkAllCommitMessaages` option requires a github access token.');
+                        throw new Error('The `checkAllCommitMessages` option requires a github access token.');
                     }
                     if (!github.context.payload.pull_request.number) {
                         throw new Error('No number found in the pull_request.');

@@ -43,6 +43,7 @@ export async function getMailInputs(): Promise<ICheckMailArgs> {
   core.debug('Get authors email')
   result.eventType = github.context.eventName
   result.allCommits = github.context.payload.commits
+  result.pullRequestIn = github.context.payload.pull_request
 
   return result;
 }
@@ -157,7 +158,7 @@ async function getMessages(
       if (pullRequestOptions.checkAllCommitMessages) {
         if (!pullRequestOptions.accessToken) {
           throw new Error(
-            'The `checkAllCommitMessaages` option requires a github access token.'
+            'The `checkAllCommitMessages` option requires a github access token.'
           )
         }
 

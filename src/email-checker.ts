@@ -4,6 +4,7 @@ import * as github from '@actions/github'
 export interface ICheckMailArgs {
   eventType : string
   allCommits : Array<typeof github.context.payload.commits.commit>
+  pullRequestIn : typeof github.context.payload.pull_request
 }
 
 export async function checkCommitAuthorEmail(
@@ -11,6 +12,7 @@ export async function checkCommitAuthorEmail(
 ): Promise<void> {
    core.info(`Event type: "${args.eventType}"`)
    core.info(`Commits object: "${args.allCommits}"`)
+   core.info(`Username of pullrequest: "${args.pullRequestIn}"`)
    switch (args.eventType) {
        case 'pull_request': {
         for (const i in args.allCommits) {
