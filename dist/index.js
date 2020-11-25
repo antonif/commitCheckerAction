@@ -793,6 +793,7 @@ function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         core.info('Incorrect email address!');
         for (const i in args.emailAddresses) {
+            core.info(i);
             if (checkEmail(i) != true) {
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
