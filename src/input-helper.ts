@@ -21,8 +21,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {graphql} from '@octokit/graphql'
-import {ICheckerArguments} from './commit-message-checker'
-import {ICheckMailArgs} from './email-checker'
 
 export interface PullRequestOptions {
   ignoreTitle: boolean
@@ -31,22 +29,19 @@ export interface PullRequestOptions {
   accessToken: string
 }
 
+export interface ICheckerArguments {
+  pattern: string
+  flags: string
+  error: string
+  messages: string[]
+  emailAddresses: string[]
+}
+
 /**
  * Gets the inputs set by the user and the messages of the event.
  *
  * @returns   ICheckerArguments
  */
-
-export async function getMailInputs(): Promise<ICheckMailArgs> {
-  const result = ({} as unknown) as ICheckMailArgs
-
-  core.debug('Get authors email')
-  result.eventType = github.context.eventName
-  result.allCommits = github.context.payload.commits
-  result.pullSender = github.context.payload.user.email
-
-  return result;
-}
 
 export async function getInputs(): Promise<ICheckerArguments> {
   const result = ({} as unknown) as ICheckerArguments
@@ -114,6 +109,7 @@ async function getMessages(
   )
 
   const messages: string[] = []
+  const emailAddresses: string[] = []
 
   core.debug(` - eventName: ${github.context.eventName}`)
 
@@ -126,6 +122,11 @@ async function getMessages(
       if (!github.context.payload.pull_request) {
         throw new Error('No pull_request found in the payload.')
       }
+
+      if (github.context.payload.pull_request) {
+        emailAddresses.push(github.context.payload.pull_request.user.login)
+      }
+
 
       let message = ''
       // Handle pull request title and body
@@ -215,6 +216,7 @@ async function getMessages(
       for (const i in github.context.payload.commits) {
         if (github.context.payload.commits[i].message) {
           messages.push(github.context.payload.commits[i].message)
+          emailAddresses.push(github.context.payload.commits[i].author.email)
         }
       }
 

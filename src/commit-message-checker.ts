@@ -20,18 +20,12 @@
  */
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import {ICheckerArguments} from './input-helper'
 
 /**
  * Interface used as arguments for the check function containing the pattern,
  * error message and the messages.
  */
-
-export interface ICheckerArguments {
-  pattern: string
-  flags: string
-  error: string
-  messages: string[]
-}
 
 /**
  * Checks commit messages given by args.

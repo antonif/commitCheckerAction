@@ -1,37 +1,16 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-
-export interface ICheckMailArgs {
-  eventType : string
-  allCommits : Array<typeof github.context.payload.commits.commit>
-  pullSender : string
-}
+import {ICheckerArguments} from './input-helper'
 
 export async function checkCommitAuthorEmail(
-  args: ICheckMailArgs
+  args: ICheckerArguments
 ): Promise<void> {
-   core.info(`Event type: "${args.eventType}"`)
-   core.info(`Commits object: "${args.allCommits}"`)
-   core.info(`Username of pullrequest: "${args.pullSender}"`)
-   switch (args.eventType) {
-       case 'pull_request': {
-       core.info(args.pullSender)
-        for (const i in args.allCommits) {
-            if (checkEmail(args.allCommits[i].author.email) != true) {
-                core.info('Incorrect email address!')
-                throw new Error('Email is not supported!')
-            }
+    for (const i in args.emailAddresses) {
+        if (checkEmail(i) != true) {
+            core.info('Incorrect email address!')
+            throw new Error('Email is not supported!')
         }
-       }
-       case 'push': {
-        for (const i in args.allCommits) {
-            if (checkEmail(args.allCommits[i].author.email) != true) {
-                core.info('Incorrect email address!')
-                throw new Error('Email is not supported!')
-            }
-        }
-       }
-   }
+    }
 }
 
 function checkEmail(email: string): boolean{

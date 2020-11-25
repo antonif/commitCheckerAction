@@ -322,6 +322,10 @@ exports.checkCommitMessages = void 0;
  */
 const core = __importStar(__webpack_require__(470));
 /**
+ * Interface used as arguments for the check function containing the pattern,
+ * error message and the messages.
+ */
+/**
  * Checks commit messages given by args.
  *
  * @param     args messages, pattern and error message to process.
@@ -721,13 +725,12 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const checkerArguments = yield inputHelper.getInputs();
-            const mailCheckArgs = yield inputHelper.getMailInputs();
             if (checkerArguments.messages.length === 0) {
                 core.info(`No commits found in the payload, skipping check.`);
             }
             else {
                 yield commitMessageChecker.checkCommitMessages(checkerArguments);
-                yield emailChecker.checkCommitAuthorEmail(mailCheckArgs);
+                yield emailChecker.checkCommitAuthorEmail(checkerArguments);
             }
         }
         catch (error) {
@@ -788,26 +791,10 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info(`Event type: "${args.eventType}"`);
-        core.info(`Commits object: "${args.allCommits}"`);
-        core.info(`Username of pullrequest: "${args.pullSender}"`);
-        switch (args.eventType) {
-            case 'pull_request': {
-                core.info(args.pullSender);
-                for (const i in args.allCommits) {
-                    if (checkEmail(args.allCommits[i].author.email) != true) {
-                        core.info('Incorrect email address!');
-                        throw new Error('Email is not supported!');
-                    }
-                }
-            }
-            case 'push': {
-                for (const i in args.allCommits) {
-                    if (checkEmail(args.allCommits[i].author.email) != true) {
-                        core.info('Incorrect email address!');
-                        throw new Error('Email is not supported!');
-                    }
-                }
+        for (const i in args.emailAddresses) {
+            if (checkEmail(i) != true) {
+                core.info('Incorrect email address!');
+                throw new Error('Email is not supported!');
             }
         }
     });
@@ -4880,7 +4867,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInputs = exports.getMailInputs = void 0;
+exports.getInputs = void 0;
 /**
  * Imports
  */
@@ -4892,17 +4879,6 @@ const graphql_1 = __webpack_require__(898);
  *
  * @returns   ICheckerArguments
  */
-function getMailInputs() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = {};
-        core.debug('Get authors email');
-        result.eventType = github.context.eventName;
-        result.allCommits = github.context.payload.commits;
-        result.pullSender = github.context.payload.user.email;
-        return result;
-    });
-}
-exports.getMailInputs = getMailInputs;
 function getInputs() {
     return __awaiter(this, void 0, void 0, function* () {
         const result = {};
@@ -4957,6 +4933,7 @@ function getMessages(pullRequestOptions) {
         core.debug('Get messages...');
         core.debug(` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`);
         const messages = [];
+        const emailAddresses = [];
         core.debug(` - eventName: ${github.context.eventName}`);
         switch (github.context.eventName) {
             case 'pull_request': {
@@ -4965,6 +4942,9 @@ function getMessages(pullRequestOptions) {
                 }
                 if (!github.context.payload.pull_request) {
                     throw new Error('No pull_request found in the payload.');
+                }
+                if (github.context.payload.pull_request) {
+                    emailAddresses.push(github.context.payload.pull_request.user.login);
                 }
                 let message = '';
                 // Handle pull request title and body
@@ -5028,6 +5008,7 @@ function getMessages(pullRequestOptions) {
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
                         messages.push(github.context.payload.commits[i].message);
+                        emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
                 break;
