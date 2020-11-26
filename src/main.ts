@@ -29,10 +29,7 @@ import * as emailChecker from './email-checker'
 async function run(): Promise<void> {
   try {
     const checkerArguments = await inputHelper.getInputs()
-    for (const i in checkerArguments.emailAddresses){
-        core.info(i)
-    }
-    if (checkerArguments.messages.length === 0) {
+    if (checkerArguments.messagesAndMails[0].length === 0) {
       core.info(`No commits found in the payload, skipping check.`)
     } else {
       await commitMessageChecker.checkCommitMessages(checkerArguments)

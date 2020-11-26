@@ -352,13 +352,13 @@ function checkCommitMessages(args) {
         if (args.error.length === 0) {
             throw new Error(`ERROR not defined.`);
         }
-        if (args.messages.length === 0) {
+        if (args.messagesAndMails.length === 0) {
             throw new Error(`MESSAGES tag is not defined.`);
         }
         // Check messages
         let result = true;
         core.info(`Checking commit messages against "${args.pattern}"...`);
-        for (const message of args.messages) {
+        for (const message of args.messagesAndMails[0]) {
             if (checkMessage(message, args.pattern, args.flags)) {
                 core.info(`- OK: "${message}"`);
             }
@@ -725,10 +725,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const checkerArguments = yield inputHelper.getInputs();
-            for (const i in checkerArguments.emailAddresses) {
-                core.info(i);
-            }
-            if (checkerArguments.messages.length === 0) {
+            if (checkerArguments.messagesAndMails[0].length === 0) {
                 core.info(`No commits found in the payload, skipping check.`);
             }
             else {
@@ -794,8 +791,7 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info('Incorrect email address!');
-        for (const i in args.emailAddresses) {
+        for (const i in args.messagesAndMails[1]) {
             core.info(i);
             if (checkEmail(i) != true) {
                 core.info('Incorrect email address!');
@@ -4921,7 +4917,7 @@ function getInputs() {
         };
         core.debug(`accessToken: ${pullRequestOptions.accessToken}`);
         // Get commit messages
-        result.messages = yield getMessages(pullRequestOptions);
+        result.messagesAndMails[0] = yield getMessagesAndEmails(pullRequestOptions);
         return result;
     });
 }
@@ -4932,13 +4928,14 @@ exports.getInputs = getInputs;
  *
  * @returns   string[]
  */
-function getMessages(pullRequestOptions) {
+function getMessagesAndEmails(pullRequestOptions) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         core.debug('Get messages...');
         core.debug(` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`);
         const messages = [];
         const emailAddresses = [];
+        const messagesAndMails = [messages, emailAddresses];
         core.debug(` - eventName: ${github.context.eventName}`);
         switch (github.context.eventName) {
             case 'pull_request': {
@@ -5022,7 +5019,7 @@ function getMessages(pullRequestOptions) {
                 throw new Error(`Event "${github.context.eventName}" is not supported.`);
             }
         }
-        return messages;
+        return messagesAndMails;
     });
 }
 function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, repositoryName, pullRequestNumber) {

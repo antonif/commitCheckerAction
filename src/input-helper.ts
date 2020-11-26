@@ -33,8 +33,7 @@ export interface ICheckerArguments {
   pattern: string
   flags: string
   error: string
-  messages: string[]
-  emailAddresses: string[]
+  messagesAndMails: string[][]
 }
 
 /**
@@ -88,7 +87,7 @@ export async function getInputs(): Promise<ICheckerArguments> {
   core.debug(`accessToken: ${pullRequestOptions.accessToken}`)
 
   // Get commit messages
-  result.messages = await getMessages(pullRequestOptions)
+  result.messagesAndMails[0] = await getMessagesAndEmails(pullRequestOptions)
 
   return result
 }
@@ -100,9 +99,9 @@ export async function getInputs(): Promise<ICheckerArguments> {
  * @returns   string[]
  */
 
-async function getMessages(
+async function getMessagesAndEmails(
   pullRequestOptions: PullRequestOptions
-): Promise<string[]> {
+): Promise<any> {
   core.debug('Get messages...')
   core.debug(
     ` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`
@@ -110,6 +109,7 @@ async function getMessages(
 
   const messages: string[] = []
   const emailAddresses: string[] = []
+  const messagesAndMails: string[][] = [messages, emailAddresses]
 
   core.debug(` - eventName: ${github.context.eventName}`)
 
@@ -227,7 +227,7 @@ async function getMessages(
     }
   }
 
-  return messages
+  return messagesAndMails
 }
 
 async function getCommitMessagesFromPullRequest(
