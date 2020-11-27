@@ -725,6 +725,9 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const checkerArguments = yield inputHelper.getInputs();
+            for (const i in checkerArguments) {
+                core.info(i);
+            }
             if (checkerArguments.messagesAndMails[0].length === 0) {
                 core.info(`No commits found in the payload, skipping check.`);
             }
