@@ -33,7 +33,8 @@ export interface ICheckerArguments {
   pattern: string
   flags: string
   error: string
-  messagesAndMails: string[][]
+  messages: string[]
+  emailAddresses: string[]
 }
 
 /**
@@ -87,7 +88,10 @@ export async function getInputs(): Promise<ICheckerArguments> {
   core.debug(`accessToken: ${pullRequestOptions.accessToken}`)
 
   // Get commit messages
-  result.messagesAndMails[0] = await getMessagesAndEmails(pullRequestOptions)
+  const allInOne = await getMessages(pullRequestOptions)
+  //result.messages = await getMessages(pullRequestOptions)
+  result.messages = allInOne[0]
+  result.emailAddresses = allInOne[1]
 
   return result
 }
@@ -99,7 +103,7 @@ export async function getInputs(): Promise<ICheckerArguments> {
  * @returns   string[]
  */
 
-async function getMessagesAndEmails(
+async function getMessages(
   pullRequestOptions: PullRequestOptions
 ): Promise<any> {
   core.debug('Get messages...')
@@ -109,7 +113,7 @@ async function getMessagesAndEmails(
 
   const messages: string[] = []
   const emailAddresses: string[] = []
-  const messagesAndMails: string[][] = [messages, emailAddresses]
+  const allInOne: string[][] = []
 
   core.debug(` - eventName: ${github.context.eventName}`)
 
@@ -219,6 +223,8 @@ async function getMessagesAndEmails(
           emailAddresses.push(github.context.payload.commits[i].author.email)
         }
       }
+      allInOne.push(messages)
+      allInOne.push(emailAddresses)
 
       break
     }
@@ -227,7 +233,7 @@ async function getMessagesAndEmails(
     }
   }
 
-  return messagesAndMails
+  return allInOne
 }
 
 async function getCommitMessagesFromPullRequest(

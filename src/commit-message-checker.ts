@@ -58,7 +58,7 @@ export async function checkCommitMessages(
     throw new Error(`ERROR not defined.`)
   }
 
-  if (args.messagesAndMails.length === 0) {
+  if (args.messages.length === 0) {
     throw new Error(`MESSAGES tag is not defined.`)
   }
 
@@ -67,7 +67,7 @@ export async function checkCommitMessages(
 
   core.info(`Checking commit messages against "${args.pattern}"...`)
 
-  for (const message of args.messagesAndMails[0]) {
+  for (const message of args.messages) {
     if (checkMessage(message, args.pattern, args.flags)) {
       core.info(`- OK: "${message}"`)
     } else {

@@ -352,13 +352,13 @@ function checkCommitMessages(args) {
         if (args.error.length === 0) {
             throw new Error(`ERROR not defined.`);
         }
-        if (args.messagesAndMails.length === 0) {
+        if (args.messages.length === 0) {
             throw new Error(`MESSAGES tag is not defined.`);
         }
         // Check messages
         let result = true;
         core.info(`Checking commit messages against "${args.pattern}"...`);
-        for (const message of args.messagesAndMails[0]) {
+        for (const message of args.messages) {
             if (checkMessage(message, args.pattern, args.flags)) {
                 core.info(`- OK: "${message}"`);
             }
@@ -725,10 +725,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const checkerArguments = yield inputHelper.getInputs();
-            for (const i in checkerArguments) {
-                core.info(i);
-            }
-            if (checkerArguments.messagesAndMails[0].length === 0) {
+            if (checkerArguments.messages.length === 0) {
                 core.info(`No commits found in the payload, skipping check.`);
             }
             else {
@@ -794,7 +791,7 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        for (const i in args.messagesAndMails[1]) {
+        for (const i in args.emailAddresses) {
             core.info(i);
             if (checkEmail(i) != true) {
                 core.info('Incorrect email address!');
@@ -4920,7 +4917,10 @@ function getInputs() {
         };
         core.debug(`accessToken: ${pullRequestOptions.accessToken}`);
         // Get commit messages
-        result.messagesAndMails[0] = yield getMessagesAndEmails(pullRequestOptions);
+        const allInOne = yield getMessages(pullRequestOptions);
+        //result.messages = await getMessages(pullRequestOptions)
+        result.messages = allInOne[0];
+        result.emailAddresses = allInOne[1];
         return result;
     });
 }
@@ -4931,14 +4931,14 @@ exports.getInputs = getInputs;
  *
  * @returns   string[]
  */
-function getMessagesAndEmails(pullRequestOptions) {
+function getMessages(pullRequestOptions) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         core.debug('Get messages...');
         core.debug(` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`);
         const messages = [];
         const emailAddresses = [];
-        const messagesAndMails = [messages, emailAddresses];
+        const allInOne = [];
         core.debug(` - eventName: ${github.context.eventName}`);
         switch (github.context.eventName) {
             case 'pull_request': {
@@ -5016,13 +5016,15 @@ function getMessagesAndEmails(pullRequestOptions) {
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
+                allInOne.push(messages);
+                allInOne.push(emailAddresses);
                 break;
             }
             default: {
                 throw new Error(`Event "${github.context.eventName}" is not supported.`);
             }
         }
-        return messagesAndMails;
+        return allInOne;
     });
 }
 function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, repositoryName, pullRequestNumber) {
