@@ -352,9 +352,9 @@ function checkCommitMessages(args) {
         if (args.error.length === 0) {
             throw new Error(`ERROR not defined.`);
         }
-        if (args.messages.length === 0) {
-            throw new Error(`MESSAGES tag is not defined.`);
-        }
+        /*if (args.messages.length === 0) {
+          throw new Error(`MESSAGES tag is not defined.`)
+        }*/
         // Check messages
         let result = true;
         core.info(`Checking commit messages against "${args.pattern}"...`);

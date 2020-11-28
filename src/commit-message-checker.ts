@@ -58,9 +58,9 @@ export async function checkCommitMessages(
     throw new Error(`ERROR not defined.`)
   }
 
-  if (args.messages.length === 0) {
+  /*if (args.messages.length === 0) {
     throw new Error(`MESSAGES tag is not defined.`)
-  }
+  }*/
 
   // Check messages
   let result = true
