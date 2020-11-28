@@ -198,6 +198,8 @@ async function getMessages(
           }
         }
       }
+      allInOne.push(messages)
+      allInOne.push(emailAddresses)
 
       break
     }

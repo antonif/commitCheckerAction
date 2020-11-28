@@ -352,9 +352,9 @@ function checkCommitMessages(args) {
         if (args.error.length === 0) {
             throw new Error(`ERROR not defined.`);
         }
-        /*if (args.messages.length === 0) {
-          throw new Error(`MESSAGES tag is not defined.`)
-        }*/
+        if (args.messages.length === 0) {
+            throw new Error(`MESSAGES tag is not defined.`);
+        }
         // Check messages
         let result = true;
         core.info(`Checking commit messages against "${args.pattern}"...`);
@@ -711,10 +711,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * Imports
- */
-const core = __importStar(__webpack_require__(470));
 const inputHelper = __importStar(__webpack_require__(821));
 const commitMessageChecker = __importStar(__webpack_require__(133));
 const emailChecker = __importStar(__webpack_require__(218));
@@ -723,19 +719,17 @@ const emailChecker = __importStar(__webpack_require__(218));
  */
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const checkerArguments = yield inputHelper.getInputs();
-            if (checkerArguments.messages.length === 0) {
-                core.info(`No commits found in the payload, skipping check.`);
-            }
-            else {
-                yield commitMessageChecker.checkCommitMessages(checkerArguments);
-                yield emailChecker.checkCommitAuthorEmail(checkerArguments);
-            }
-        }
-        catch (error) {
-            core.setFailed(error);
-        }
+        /*try {*/
+        const checkerArguments = yield inputHelper.getInputs();
+        /*if (checkerArguments.messages.length === 0) {
+          core.info(`No commits found in the payload, skipping check.`)
+        } else {*/
+        yield commitMessageChecker.checkCommitMessages(checkerArguments);
+        yield emailChecker.checkCommitAuthorEmail(checkerArguments);
+        /*}
+      } catch (error) {
+        core.setFailed(error)
+      }*/
     });
 }
 /**
@@ -4997,6 +4991,8 @@ function getMessages(pullRequestOptions) {
                         }
                     }
                 }
+                allInOne.push(messages);
+                allInOne.push(emailAddresses);
                 break;
             }
             case 'push': {
