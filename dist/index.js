@@ -711,6 +711,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Imports
+ */
+const core = __importStar(__webpack_require__(470));
 const inputHelper = __importStar(__webpack_require__(821));
 const commitMessageChecker = __importStar(__webpack_require__(133));
 const emailChecker = __importStar(__webpack_require__(218));
@@ -719,19 +723,22 @@ const emailChecker = __importStar(__webpack_require__(218));
  */
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        /*try {*/
-        const checkerArguments = yield inputHelper.getInputs();
-        /*if (checkerArguments.messages.length === 0) {
-          core.info(`No commits found in the payload, skipping check.`)
-        } else {*/
-        yield commitMessageChecker.checkCommitMessages(checkerArguments);
-        yield emailChecker.checkCommitAuthorEmail(checkerArguments);
-        /*}
-      } catch (error) {
-        core.setFailed(error)
-      }*/
+        try {
+            const checkerArguments = yield inputHelper.getInputs();
+            if (checkerArguments.messages.length === 0) {
+                core.info(`No commits found in the payload, skipping check.`);
+            }
+            else {
+                yield commitMessageChecker.checkCommitMessages(checkerArguments);
+                yield emailChecker.checkCommitAuthorEmail(checkerArguments);
+            }
+        }
+        catch (error) {
+            core.setFailed(error);
+        }
     });
 }
+core.info('ASD');
 /**
  * Main entry point
  */
@@ -786,7 +793,6 @@ const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         for (const i in args.emailAddresses) {
-            core.info(`Email addresses are: ${i}`);
             if (checkEmail(i) != true) {
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');

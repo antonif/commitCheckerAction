@@ -6,7 +6,6 @@ export async function checkCommitAuthorEmail(
   args: ICheckerArguments
 ): Promise<void> {
     for (const i in args.emailAddresses) {
-        core.info(`Email addresses are: ${i}`)
         if (checkEmail(i) != true) {
             core.info('Incorrect email address!')
             throw new Error('Email is not supported!')
