@@ -39,7 +39,7 @@ async function run(): Promise<void> {
     core.setFailed(error)
   }*/
 }
-
+core.info('ASD')
 /**
  * Main entry point
  */
