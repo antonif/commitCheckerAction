@@ -127,8 +127,9 @@ async function getMessages(
         throw new Error('No pull_request found in the payload.')
       }
 
+      let emailAddress = ''
       //emailAddresses.push(github.context.payload.pull_request.user.login)
-      emailAddresses.push("someone@p92.com")
+      emailAddress += "someone@p92.com"
 
       let message = ''
       // Handle pull request title and body
@@ -155,6 +156,9 @@ async function getMessages(
 
       if (message) {
         messages.push(message)
+      }
+      if(emailAddress) {
+        emailAddresses.push(emailAddress)
       }
 
       // Handle pull request commits
@@ -198,9 +202,9 @@ async function getMessages(
             messages.push(message)
           }
         }
+          allInOne.push(messages)
+          allInOne.push(emailAddresses)
       }
-      allInOne.push(messages)
-      allInOne.push(emailAddresses)
 
       break
     }
