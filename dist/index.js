@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info('TEST');
+core.info('TEST1');
 /**
  * Main entry point
  */
@@ -5004,7 +5004,6 @@ function getMessages(pullRequestOptions) {
                     }
                 }
                 //Ez jó helyen van
-                emailAddresses.push('someone@p92.com');
                 allInOne.push(messages);
                 allInOne.push(emailAddresses);
                 break;
@@ -5020,6 +5019,7 @@ function getMessages(pullRequestOptions) {
                 }
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
+                        core.debug(` emailaddressss: ${github.context.payload.commits[i].author.email}`);
                         messages.push(github.context.payload.commits[i].message);
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }

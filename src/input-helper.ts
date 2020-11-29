@@ -204,7 +204,6 @@ async function getMessages(
         }
       }
       //Ez jó helyen van
-      emailAddresses.push('someone@p92.com')
       allInOne.push(messages)
       allInOne.push(emailAddresses)
 
@@ -225,8 +224,10 @@ async function getMessages(
 
       for (const i in github.context.payload.commits) {
         if (github.context.payload.commits[i].message) {
+          core.debug(` emailaddressss: ${github.context.payload.commits[i].author.email}`)
           messages.push(github.context.payload.commits[i].message)
           emailAddresses.push(github.context.payload.commits[i].author.email)
+
         }
       }
       allInOne.push(messages)
