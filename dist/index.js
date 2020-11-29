@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info('TEST12');
+core.info('TEST123');
 /**
  * Main entry point
  */
@@ -4926,6 +4926,9 @@ function getInputs() {
         // Get commit messages
         const allInOne = yield getMessages(pullRequestOptions);
         //result.messages = await getMessages(pullRequestOptions)
+        for (const i in allInOne) {
+            core.info(i);
+        }
         result.messages = allInOne[0];
         result.emailAddresses = allInOne[1];
         return result;
