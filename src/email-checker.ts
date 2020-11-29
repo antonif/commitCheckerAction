@@ -7,6 +7,7 @@ export async function checkCommitAuthorEmail(
 ): Promise<void> {
     for (const i in args.emailAddresses) {
         if (checkEmail(args.emailAddresses[i]) != true) {
+            core.info(`Your email address is: "${args.emailAddresses[i]}"`)
             core.info('Incorrect email address!')
             throw new Error('Email is not supported!')
         }
