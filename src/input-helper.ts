@@ -202,9 +202,9 @@ async function getMessages(
             messages.push(message)
           }
         }
-          allInOne.push(messages)
-          allInOne.push(emailAddresses)
       }
+      allInOne.push(messages)
+      allInOne.push(emailAddresses)
 
       break
     }
