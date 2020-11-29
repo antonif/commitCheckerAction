@@ -41,10 +41,3 @@ jobs:
           #checkAllCommitMessages: 'true'
           # you must provide GITHUB_TOKEN to this input if checkAllCommitMessages is true
           #accessToken: # optional, default is false
-
-      - name: Commit Message Checker (with wrong pattern)
-        uses: ./
-        with:
-          pattern: '.*\s?(GRA-\d{5}|RPS-\d{5})\s?.*'
-          flags: 'g'
-          error: 'Test2'
