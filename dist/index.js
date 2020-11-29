@@ -738,7 +738,6 @@ function run() {
         }
     });
 }
-core.info('ASD');
 /**
  * Main entry point
  */
@@ -793,6 +792,7 @@ const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         for (const i in args.emailAddresses) {
+            core.info('Email address is: ${i}');
             if (checkEmail(i) != true) {
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
