@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info('TEST123');
+core.info('TEST12');
 /**
  * Main entry point
  */
@@ -4927,7 +4927,7 @@ function getInputs() {
         const allInOne = yield getMessages(pullRequestOptions);
         //result.messages = await getMessages(pullRequestOptions)
         for (const i in allInOne) {
-            core.info(i);
+            core.info(allInOne[i]);
         }
         result.messages = allInOne[0];
         result.emailAddresses = allInOne[1];
