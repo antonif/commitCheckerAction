@@ -5003,6 +5003,8 @@ function getMessages(pullRequestOptions) {
                         }
                     }
                 }
+                //Ez jó helyen van
+                emailAddresses.push('someone@p92.com');
                 allInOne.push(messages);
                 allInOne.push(emailAddresses);
                 break;

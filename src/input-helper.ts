@@ -203,6 +203,8 @@ async function getMessages(
           }
         }
       }
+      //Ez jó helyen van
+      emailAddresses.push('someone@p92.com')
       allInOne.push(messages)
       allInOne.push(emailAddresses)
 
