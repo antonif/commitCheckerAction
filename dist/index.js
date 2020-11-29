@@ -4948,7 +4948,8 @@ function getMessages(pullRequestOptions) {
                 if (!github.context.payload.pull_request) {
                     throw new Error('No pull_request found in the payload.');
                 }
-                emailAddresses.push(github.context.payload.pull_request.user.login);
+                //emailAddresses.push(github.context.payload.pull_request.user.login)
+                emailAddresses.push("someone@p92.com");
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
