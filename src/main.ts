@@ -39,7 +39,7 @@ async function run(): Promise<void> {
     core.setFailed(error)
   }
 }
-core.info("Main test23")
+core.info("Main test2345")
 /**
  * Main entry point
  */
