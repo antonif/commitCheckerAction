@@ -738,6 +738,7 @@ function run() {
         }
     });
 }
+core.info('TEST');
 /**
  * Main entry point
  */
@@ -5001,9 +5002,11 @@ function getMessages(pullRequestOptions) {
                             messages.push(message);
                         }
                     }
-                    allInOne.push(messages);
-                    allInOne.push(emailAddresses);
                 }
+                //Ez jó helyen van
+                emailAddresses.push('someone@p92.com');
+                allInOne.push(messages);
+                allInOne.push(emailAddresses);
                 break;
             }
             case 'push': {
