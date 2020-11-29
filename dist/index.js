@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info('TEST1');
+core.info('TEST12');
 /**
  * Main entry point
  */
@@ -792,6 +792,7 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
+        args.emailAddresses.push("someone@p92.com");
         for (const i in args.emailAddresses) {
             core.info(`Email is: "${i}"`);
             if (checkEmail(i) != true) {
