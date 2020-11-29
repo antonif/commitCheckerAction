@@ -738,6 +738,7 @@ function run() {
         }
     });
 }
+core.info("Main test");
 /**
  * Main entry point
  */
@@ -4949,7 +4950,7 @@ function getMessages(pullRequestOptions) {
                     throw new Error('No pull_request found in the payload.');
                 }
                 let emailAddress = '';
-                emailAddresses.push(github.context.payload.pull_request.user.login);
+                emailAddresses.push(github.context.payload.pull_request.sender.login);
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
