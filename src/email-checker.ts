@@ -5,7 +5,12 @@ import {ICheckerArguments} from './input-helper'
 export async function checkCommitAuthorEmail(
   args: ICheckerArguments
 ): Promise<void> {
-    args.emailAddresses.push("someone@p92.com")
+    for (const i in args.emailAddresses) {
+        core.info(i)
+    }
+    for (const i in args.messages) {
+        core.info(i)
+    }
     for (const i in args.emailAddresses) {
         core.info(`Email is: "${i}"`)
         if (checkEmail(i) != true) {
