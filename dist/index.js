@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info('TEST12');
+core.info('TEST1234');
 /**
  * Main entry point
  */
@@ -793,10 +793,10 @@ const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         for (const i in args.emailAddresses) {
-            core.info(i);
+            core.info(args.emailAddresses[i]);
         }
         for (const i in args.messages) {
-            core.info(i);
+            core.info(args.messages[i]);
         }
         for (const i in args.emailAddresses) {
             core.info(`Email is: "${i}"`);
@@ -4926,9 +4926,6 @@ function getInputs() {
         // Get commit messages
         const allInOne = yield getMessages(pullRequestOptions);
         //result.messages = await getMessages(pullRequestOptions)
-        for (const i in allInOne) {
-            core.info(allInOne[i]);
-        }
         result.messages = allInOne[0];
         result.emailAddresses = allInOne[1];
         return result;
