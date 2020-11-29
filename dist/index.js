@@ -4948,8 +4948,9 @@ function getMessages(pullRequestOptions) {
                 if (!github.context.payload.pull_request) {
                     throw new Error('No pull_request found in the payload.');
                 }
+                let emailAddress = '';
                 //emailAddresses.push(github.context.payload.pull_request.user.login)
-                emailAddresses.push("someone@p92.com");
+                emailAddress += "someone@p92.com";
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
@@ -4971,6 +4972,9 @@ function getMessages(pullRequestOptions) {
                 }
                 if (message) {
                     messages.push(message);
+                }
+                if (emailAddress) {
+                    emailAddresses.push(emailAddress);
                 }
                 // Handle pull request commits
                 if (pullRequestOptions.checkAllCommitMessages) {
@@ -4997,9 +5001,9 @@ function getMessages(pullRequestOptions) {
                             messages.push(message);
                         }
                     }
+                    allInOne.push(messages);
+                    allInOne.push(emailAddresses);
                 }
-                allInOne.push(messages);
-                allInOne.push(emailAddresses);
                 break;
             }
             case 'push': {
