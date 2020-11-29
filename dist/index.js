@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test23");
+core.info("Main test2345");
 /**
  * Main entry point
  */
@@ -798,6 +798,7 @@ function checkCommitAuthorEmail(args) {
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
             }
+            core.info(`Author email address is: "${args.emailAddresses[i]}"`);
         }
     });
 }
