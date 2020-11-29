@@ -128,8 +128,7 @@ async function getMessages(
       }
 
       let emailAddress = ''
-      //emailAddresses.push(github.context.payload.pull_request.user.login)
-      emailAddress += "someone@p92.com"
+      emailAddresses.push(github.context.payload.pull_request.user.login)
 
       let message = ''
       // Handle pull request title and body
