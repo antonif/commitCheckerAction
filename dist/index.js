@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info('TEST123');
+core.info('TEST12345');
 /**
  * Main entry point
  */
@@ -794,6 +794,7 @@ function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         for (const i in args.emailAddresses) {
             if (checkEmail(args.emailAddresses[i]) != true) {
+                core.info(`Your email address is: "${args.emailAddresses[i]}"`);
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
             }
