@@ -90,6 +90,9 @@ export async function getInputs(): Promise<ICheckerArguments> {
   // Get commit messages
   const allInOne = await getMessages(pullRequestOptions)
   //result.messages = await getMessages(pullRequestOptions)
+  for (const i in allInOne) {
+    core.info(i)
+  }
   result.messages = allInOne[0]
   result.emailAddresses = allInOne[1]
 
