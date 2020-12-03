@@ -127,20 +127,8 @@ async function getMessages(
         throw new Error('No pull_request found in the payload.')
       }
 
-      let emailAddress = ''
-
-      for (const i in github.context.payload.commits) {
-        if (github.context.payload.commits[i].message) {
-          core.info("Pull requests commit author: ${github.context.payload.commits[i].author.email}")
-          emailAddresses.push(github.context.payload.commits[i].author.email)
-        }
-      }
-      for (const i in emailAddresses) {
-        core.info(emailAddresses[i])
-      }
-      /**for (const i in github.context.payload.pull_request.commits) {
-        emailAddresses.push(github.context.payload.pull_request.commits[i].author.email)
-      }*/
+      emailAddresses.push(github.context.payload.pull_request.sender)
+      core.info(github.context.payload.pull_request.sender)
 
       let message = ''
       // Handle pull request title and body
