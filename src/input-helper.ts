@@ -135,9 +135,6 @@ async function getMessages(
           emailAddresses.push(github.context.payload.commits[i].author.email)
         }
       }
-      for (const i in emailAddresses) {
-        core.debug(` Email(${i}): ${emailAddresses[i]}`)
-      }
       core.debug(` Pull request's commit author emails: ${emailAddresses}`)
       /**for (const i in github.context.payload.pull_request.commits) {
         emailAddresses.push(github.context.payload.pull_request.commits[i].author.email)
@@ -168,9 +165,6 @@ async function getMessages(
 
       if (message) {
         messages.push(message)
-      }
-      if(emailAddress) {
-        emailAddresses.push(emailAddress)
       }
 
       // Handle pull request commits
@@ -218,6 +212,7 @@ async function getMessages(
       //Ez jó helyen van
       allInOne.push(messages)
       allInOne.push(emailAddresses)
+      core.debug(allInOne[1][0])
 
       break
     }
