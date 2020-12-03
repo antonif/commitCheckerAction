@@ -135,6 +135,10 @@ async function getMessages(
           emailAddresses.push(github.context.payload.commits[i].author.email)
         }
       }
+      for (const i in emailAddresses) {
+        core.debug(` Email(${i}): ${emailAddresses[i]}`)
+      }
+      core.debug(` Pull request's commit author emails: ${emailAddresses}`)
       /**for (const i in github.context.payload.pull_request.commits) {
         emailAddresses.push(github.context.payload.pull_request.commits[i].author.email)
       }*/
