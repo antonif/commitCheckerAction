@@ -119,6 +119,7 @@ async function getMessages(
 
   switch (github.context.eventName) {
     case 'pull_request': {
+      core.debug(` Pull requset test`)
       if (!github.context.payload) {
         throw new Error('No payload found in the context.')
       }
@@ -212,7 +213,6 @@ async function getMessages(
       //Ez jó helyen van
       allInOne.push(messages)
       allInOne.push(emailAddresses)
-      core.debug(allInOne[1][0])
 
       break
     }
