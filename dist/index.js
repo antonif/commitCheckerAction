@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test23");
+core.info("Main test234");
 /**
  * Main entry point
  */
@@ -4951,9 +4951,15 @@ function getMessages(pullRequestOptions) {
                     throw new Error('No pull_request found in the payload.');
                 }
                 let emailAddress = '';
-                for (const i in github.context.payload.pull_request.commits) {
-                    emailAddresses.push(github.context.payload.pull_request.commits[i].author.email);
+                for (const i in github.context.payload.commits) {
+                    if (github.context.payload.commits[i].message) {
+                        core.debug(` Pull request's commit author: ${github.context.payload.commits[i].author.email}`);
+                        emailAddresses.push(github.context.payload.commits[i].author.email);
+                    }
                 }
+                /**for (const i in github.context.payload.pull_request.commits) {
+                  emailAddresses.push(github.context.payload.pull_request.commits[i].author.email)
+                }*/
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
