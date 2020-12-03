@@ -119,7 +119,7 @@ async function getMessages(
 
   switch (github.context.eventName) {
     case 'pull_request': {
-      core.debug(` Pull requset test`)
+      core.info(` Pull requset test`)
       if (!github.context.payload) {
         throw new Error('No payload found in the context.')
       }
