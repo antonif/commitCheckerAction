@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test12345");
+core.info("Main test1");
 /**
  * Main entry point
  */
@@ -4953,7 +4953,7 @@ function getMessages(pullRequestOptions) {
                 let emailAddress = '';
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
-                        core.info(` Pull request's commit author: ${github.context.payload.commits[i].author.email}`);
+                        core.info("Pull requests commit author: ${github.context.payload.commits[i].author.email}");
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
