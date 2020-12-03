@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test1");
+core.info("Main test12");
 /**
  * Main entry point
  */
@@ -4957,7 +4957,7 @@ function getMessages(pullRequestOptions) {
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
-                core.debug(` Pull request's commit author emails: ${emailAddresses}`);
+                core.info("Pull request's commit author emails: ${emailAddresses}");
                 /**for (const i in github.context.payload.pull_request.commits) {
                   emailAddresses.push(github.context.payload.pull_request.commits[i].author.email)
                 }*/
