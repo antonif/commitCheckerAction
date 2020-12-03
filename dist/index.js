@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test123");
+core.info("Main test12345");
 /**
  * Main entry point
  */
@@ -4944,7 +4944,6 @@ function getMessages(pullRequestOptions) {
         core.debug(` - eventName: ${github.context.eventName}`);
         switch (github.context.eventName) {
             case 'pull_request': {
-                core.info(` Pull requset test`);
                 if (!github.context.payload) {
                     throw new Error('No payload found in the context.');
                 }
@@ -4954,7 +4953,7 @@ function getMessages(pullRequestOptions) {
                 let emailAddress = '';
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
-                        core.debug(` Pull request's commit author: ${github.context.payload.commits[i].author.email}`);
+                        core.info(` Pull request's commit author: ${github.context.payload.commits[i].author.email}`);
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
