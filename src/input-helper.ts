@@ -119,7 +119,6 @@ async function getMessages(
 
   switch (github.context.eventName) {
     case 'pull_request': {
-      core.info(` Pull requset test`)
       if (!github.context.payload) {
         throw new Error('No payload found in the context.')
       }
@@ -132,7 +131,7 @@ async function getMessages(
 
       for (const i in github.context.payload.commits) {
         if (github.context.payload.commits[i].message) {
-          core.debug(` Pull request's commit author: ${github.context.payload.commits[i].author.email}`)
+          core.info(` Pull request's commit author: ${github.context.payload.commits[i].author.email}`)
           emailAddresses.push(github.context.payload.commits[i].author.email)
         }
       }
