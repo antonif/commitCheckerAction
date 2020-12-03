@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test2345");
+core.info("Main test23");
 /**
  * Main entry point
  */
