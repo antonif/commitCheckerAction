@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test12");
+core.info("Main test123");
 /**
  * Main entry point
  */
@@ -4944,7 +4944,7 @@ function getMessages(pullRequestOptions) {
         core.debug(` - eventName: ${github.context.eventName}`);
         switch (github.context.eventName) {
             case 'pull_request': {
-                core.debug(` Pull requset test`);
+                core.info(` Pull requset test`);
                 if (!github.context.payload) {
                     throw new Error('No payload found in the context.');
                 }
