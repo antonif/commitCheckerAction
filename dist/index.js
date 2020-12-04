@@ -4953,6 +4953,7 @@ function getMessages(pullRequestOptions) {
                 for (const i in github.context.payload.pull_requests) {
                     if (github.context.payload.pull_requests[i].sender.login) {
                         emailAddresses.push(github.context.payload.pull_requests[i].sender.login);
+                        core.info(github.context.payload.pull_requests[i].sender.login);
                     }
                 }
                 let message = '';
