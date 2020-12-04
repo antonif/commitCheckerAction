@@ -791,19 +791,19 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        for (const i in args.lists.emailAddresses) {
-            if (checkEmail(args.lists.emailAddresses[i]) != true) {
-                core.info(`Your email address is: "${args.lists.emailAddresses[i]}"`);
+        for (let email in args.lists.emailAddresses) {
+            if (checkEmail(email, args.emailPattern, args.flags) != true) {
+                core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
             }
-            core.info(`Author email address is: "${args.lists.emailAddresses[i]}"`);
+            core.info(`Author email address is: "${email}"`);
         }
     });
 }
 exports.checkCommitAuthorEmail = checkCommitAuthorEmail;
-function checkEmail(email) {
-    const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)');
+function checkEmail(email, emailPattern, flags) {
+    const regex = new RegExp(emailPattern, flags);
     return regex.test(email);
 }
 
@@ -4888,6 +4888,9 @@ function getInputs() {
         // Get pattern
         result.pattern = core.getInput('pattern', { required: true });
         core.debug(`pattern: ${result.pattern}`);
+        // Get email pattern
+        result.emailPattern = core.getInput('emailPattern', { required: true });
+        core.debug(`emailPattern: ${result.emailPattern}`);
         // Get flags
         result.flags = core.getInput('flags');
         core.debug(`flags: ${result.flags}`);

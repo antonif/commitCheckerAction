@@ -5,17 +5,21 @@ import {ICheckerArguments} from './input-helper'
 export async function checkCommitAuthorEmail(
   args: ICheckerArguments
 ): Promise<void> {
-    for (const i in args.lists.emailAddresses) {
-        if (checkEmail(args.lists.emailAddresses[i]) != true) {
-            core.info(`Your email address is: "${args.lists.emailAddresses[i]}"`)
+    for (let email in args.lists.emailAddresses) {
+        if (checkEmail(email, args.emailPattern, args.flags) != true) {
+            core.info(`Your email address is: "${email}"`)
             core.info('Incorrect email address!')
             throw new Error('Email is not supported!')
         }
-        core.info(`Author email address is: "${args.lists.emailAddresses[i]}"`)
+        core.info(`Author email address is: "${email}"`)
     }
 }
 
-function checkEmail(email: string): boolean{
-  const regex = new RegExp('([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)')
+function checkEmail(
+  email: string,
+  emailPattern: string,
+  flags: string
+): boolean {
+  const regex = new RegExp(emailPattern, flags)
   return regex.test(email)
 }
