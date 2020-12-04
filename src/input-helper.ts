@@ -31,6 +31,7 @@ export interface PullRequestOptions {
 
 export interface ICheckerArguments {
   pattern: string
+  emailPattern: string
   flags: string
   error: string
   lists: CheckerLists
@@ -55,6 +56,10 @@ export async function getInputs(): Promise<ICheckerArguments> {
   // Get pattern
   result.pattern = core.getInput('pattern', {required: true})
   core.debug(`pattern: ${result.pattern}`)
+
+  // Get email pattern
+  result.emailPattern = core.getInput('emailPattern', {required: true})
+  core.debug(`emailPattern: ${result.emailPattern}`)
 
   // Get flags
   result.flags = core.getInput('flags')
