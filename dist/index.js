@@ -791,9 +791,9 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        for (let email in args.lists.emailAddresses) {
+        for (const email of args.lists.emailAddresses) {
             if (checkEmail(email, args.emailPattern, args.flags) != true) {
-                core.info(`Your email address is: "${args.lists.emailAddresses[email]}"`);
+                core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
             }
