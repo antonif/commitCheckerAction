@@ -738,6 +738,7 @@ function run() {
         }
     });
 }
+core.info("New test");
 /**
  * Main entry point
  */
@@ -4951,8 +4952,8 @@ function getMessages(pullRequestOptions) {
                 }
                 //****************************************
                 for (const i in github.context.payload.commits) {
-                    if (github.context.payload.commits[i].author.email) {
-                        core.info(`email of pusher: ${github.context.payload.commits[i].author.email}`);
+                    if (github.context.payload.commits[i].message) {
+                        messages.push(github.context.payload.commits[i].message);
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
@@ -5020,7 +5021,6 @@ function getMessages(pullRequestOptions) {
                 }
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
-                        core.debug(` emailaddressss: ${github.context.payload.commits[i].author.email}`);
                         messages.push(github.context.payload.commits[i].message);
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
