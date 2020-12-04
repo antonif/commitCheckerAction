@@ -5,7 +5,7 @@ import {ICheckerArguments} from './input-helper'
 export async function checkCommitAuthorEmail(
   args: ICheckerArguments
 ): Promise<void> {
-    for (const email of args.lists.emailAddresses) {
+    for (let email of args.lists.emailAddresses) {
         if (checkEmail(email, args.emailPattern, args.flags) != true) {
             core.info(`Your email address is: "${email}"`)
             core.info('Incorrect email address!')
