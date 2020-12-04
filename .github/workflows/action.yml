@@ -33,6 +33,8 @@ jobs:
         with:
           # A regex pattern to check if a commit message is valid.
           pattern: '.*\s?(GRA-\d{5}|RPS-\d{5})\s?.*'
+          # A regex pattern to check if a commit message author's email is valid.
+          emailPattern: '([a-z]+([.]|[0-9]+)?)+(\.p92)?@(sonymusic\.com|bct14\.de)'
           # Expression flags change how the expression is interpreted.
           flags: 'g'
           # A error message which will be returned in case of an error.
