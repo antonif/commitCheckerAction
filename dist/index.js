@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("Main test");
+core.info("Main test123");
 /**
  * Main entry point
  */
@@ -4953,14 +4953,10 @@ function getMessages(pullRequestOptions) {
                 //****************************************
                 for (const i in github.context.payload.pull_requests) {
                     if (github.context.payload.pull_requests[i].head_commit.committer.email) {
-                        core.debug(` emailaddressss: ${github.context.payload.pull_requests[i].head_commit.committer.email}`);
-                        emailAddresses.push(github.context.payload.pull_requests[i].head_commit.committer.email);
+                        core.debug(` emailaddress of pusher: ${github.context.payload.pusher.email}`);
+                        emailAddresses.push(github.context.payload.pusher.email);
                     }
                 }
-                //****************************************
-                emailAddresses.push(github.context.payload.pull_request.user.login);
-                core.info(github.context.payload.pull_request.user.login);
-                //****************************************
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {
