@@ -738,7 +738,7 @@ function run() {
         }
     });
 }
-core.info("New test");
+core.info("New test123");
 /**
  * Main entry point
  */
@@ -4957,6 +4957,8 @@ function getMessages(pullRequestOptions) {
                         emailAddresses.push(github.context.payload.commits[i].author.email);
                     }
                 }
+                allInOne.push(messages);
+                allInOne.push(emailAddresses);
                 let message = '';
                 // Handle pull request title and body
                 if (!pullRequestOptions.ignoreTitle) {

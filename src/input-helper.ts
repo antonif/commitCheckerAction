@@ -133,6 +133,8 @@ async function getMessages(
           emailAddresses.push(github.context.payload.commits[i].author.email)
         }
       }
+      allInOne.push(messages)
+      allInOne.push(emailAddresses)
 
       let message = ''
       // Handle pull request title and body
