@@ -352,13 +352,13 @@ function checkCommitMessages(args) {
         if (args.error.length === 0) {
             throw new Error(`ERROR not defined.`);
         }
-        if (args.messages.length === 0) {
+        if (args.lists.messages.length === 0) {
             throw new Error(`MESSAGES tag is not defined.`);
         }
         // Check messages
         let result = true;
         core.info(`Checking commit messages against "${args.pattern}"...`);
-        for (const message of args.messages) {
+        for (const message of args.lists.messages) {
             if (checkMessage(message, args.pattern, args.flags)) {
                 core.info(`- OK: "${message}"`);
             }
@@ -725,7 +725,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const checkerArguments = yield inputHelper.getInputs();
-            if (checkerArguments.messages.length === 0) {
+            if (checkerArguments.lists.messages.length === 0) {
                 core.info(`No commits found in the payload, skipping check.`);
             }
             else {
@@ -791,13 +791,13 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
-        for (const i in args.emailAddresses) {
-            if (checkEmail(args.emailAddresses[i]) != true) {
-                core.info(`Your email address is: "${args.emailAddresses[i]}"`);
+        for (const i in args.lists.emailAddresses) {
+            if (checkEmail(args.lists.emailAddresses[i]) != true) {
+                core.info(`Your email address is: "${args.lists.emailAddresses[i]}"`);
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
             }
-            core.info(`Author email address is: "${args.emailAddresses[i]}"`);
+            core.info(`Author email address is: "${args.lists.emailAddresses[i]}"`);
         }
     });
 }
@@ -4918,10 +4918,8 @@ function getInputs() {
         };
         core.debug(`accessToken: ${pullRequestOptions.accessToken}`);
         // Get commit messages
-        const allInOne = yield getMessages(pullRequestOptions);
-        //result.messages = await getMessages(pullRequestOptions)
-        result.messages = allInOne[0];
-        result.emailAddresses = allInOne[1];
+        //--result.messages = await getMessages(pullRequestOptions)
+        result.lists = yield getMessages(pullRequestOptions);
         return result;
     });
 }
@@ -4937,9 +4935,9 @@ function getMessages(pullRequestOptions) {
     return __awaiter(this, void 0, void 0, function* () {
         core.debug('Get messages...');
         core.debug(` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`);
-        const messages = [];
-        const emailAddresses = [];
-        const allInOne = [];
+        const messagesList = [];
+        const emailAddressList = [];
+        const twoLists = {};
         core.debug(` - eventName: ${github.context.eventName}`);
         switch (github.context.eventName) {
             case 'pull_request': {
@@ -4948,13 +4946,6 @@ function getMessages(pullRequestOptions) {
                 }
                 if (!github.context.payload.pull_request) {
                     throw new Error('No pull_request found in the payload.');
-                }
-                //****************************************
-                for (const i in github.context.payload.pull_requests) {
-                    if (github.context.payload.pull_requests[i].sender.login) {
-                        emailAddresses.push(github.context.payload.pull_requests[i].sender.login);
-                        core.info(github.context.payload.pull_requests[i].sender.login);
-                    }
                 }
                 let message = '';
                 // Handle pull request title and body
@@ -4976,7 +4967,7 @@ function getMessages(pullRequestOptions) {
                     core.debug(' - skipping description');
                 }
                 if (message) {
-                    messages.push(message);
+                    messagesList.push(message);
                 }
                 // Handle pull request commits
                 if (pullRequestOptions.checkAllCommitMessages) {
@@ -5000,13 +4991,11 @@ function getMessages(pullRequestOptions) {
                     const commitMessages = yield getCommitMessagesFromPullRequest(pullRequestOptions.accessToken, (_a = github.context.payload.repository.owner.name) !== null && _a !== void 0 ? _a : github.context.payload.repository.owner.login, github.context.payload.repository.name, github.context.payload.pull_request.number);
                     for (const message of commitMessages) {
                         if (message) {
-                            messages.push(message);
+                            messagesList.push(message);
                         }
                     }
                 }
-                //Ez jó helyen van
-                allInOne.push(messages);
-                allInOne.push(emailAddresses);
+                twoLists.messages = messagesList;
                 break;
             }
             case 'push': {
@@ -5020,19 +5009,19 @@ function getMessages(pullRequestOptions) {
                 }
                 for (const i in github.context.payload.commits) {
                     if (github.context.payload.commits[i].message) {
-                        messages.push(github.context.payload.commits[i].message);
-                        emailAddresses.push(github.context.payload.commits[i].author.email);
+                        messagesList.push(github.context.payload.commits[i].message);
+                        emailAddressList.push(github.context.payload.commits[i].author.email);
                     }
                 }
-                allInOne.push(messages);
-                allInOne.push(emailAddresses);
+                twoLists.emailAddresses = emailAddressList;
+                twoLists.messages = messagesList;
                 break;
             }
             default: {
                 throw new Error(`Event "${github.context.eventName}" is not supported.`);
             }
         }
-        return allInOne;
+        return twoLists;
     });
 }
 function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, repositoryName, pullRequestNumber) {
