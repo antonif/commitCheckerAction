@@ -33,6 +33,10 @@ export interface ICheckerArguments {
   pattern: string
   flags: string
   error: string
+  lists: CheckerLists
+}
+
+interface CheckerLists {
   messages: string[]
   emailAddresses: string[]
 }
@@ -88,10 +92,8 @@ export async function getInputs(): Promise<ICheckerArguments> {
   core.debug(`accessToken: ${pullRequestOptions.accessToken}`)
 
   // Get commit messages
-  const allInOne = await getMessages(pullRequestOptions)
-  //result.messages = await getMessages(pullRequestOptions)
-  result.messages = allInOne[0]
-  result.emailAddresses = allInOne[1]
+  //--result.messages = await getMessages(pullRequestOptions)
+  result.lists = await getMessages(pullRequestOptions)
 
   return result
 }
@@ -105,15 +107,15 @@ export async function getInputs(): Promise<ICheckerArguments> {
 
 async function getMessages(
   pullRequestOptions: PullRequestOptions
-): Promise<any> {
+): Promise<CheckerLists> {
   core.debug('Get messages...')
   core.debug(
     ` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`
   )
 
-  const messages: string[] = []
-  const emailAddresses: string[] = []
-  const allInOne: string[][] = []
+  const messagesList: string[] = []
+  const emailAddressList: string[] = []
+  const twoLists = {} as CheckerLists
 
   core.debug(` - eventName: ${github.context.eventName}`)
 
@@ -125,14 +127,6 @@ async function getMessages(
 
       if (!github.context.payload.pull_request) {
         throw new Error('No pull_request found in the payload.')
-      }
-      //****************************************
-
-      for (const i in github.context.payload.pull_requests) {
-          if (github.context.payload.pull_requests[i].sender.login) {
-            emailAddresses.push(github.context.payload.pull_requests[i].sender.login)
-            core.info(github.context.payload.pull_requests[i].sender.login)
-          }
       }
 
       let message = ''
@@ -159,7 +153,7 @@ async function getMessages(
       }
 
       if (message) {
-        messages.push(message)
+        messagesList.push(message)
       }
 
       // Handle pull request commits
@@ -201,13 +195,11 @@ async function getMessages(
 
         for (const message of commitMessages) {
           if (message) {
-            messages.push(message)
+            messagesList.push(message)
           }
         }
       }
-      //Ez jó helyen van
-      allInOne.push(messages)
-      allInOne.push(emailAddresses)
+      twoLists.messages = messagesList
 
       break
     }
@@ -226,12 +218,12 @@ async function getMessages(
 
       for (const i in github.context.payload.commits) {
         if (github.context.payload.commits[i].message) {
-          messages.push(github.context.payload.commits[i].message)
-          emailAddresses.push(github.context.payload.commits[i].author.email)
+          messagesList.push(github.context.payload.commits[i].message)
+          emailAddressList.push(github.context.payload.commits[i].author.email)
         }
       }
-      allInOne.push(messages)
-      allInOne.push(emailAddresses)
+      twoLists.emailAddresses = emailAddressList
+      twoLists.messages = messagesList
 
       break
     }
@@ -240,7 +232,7 @@ async function getMessages(
     }
   }
 
-  return allInOne
+  return twoLists
 }
 
 async function getCommitMessagesFromPullRequest(
