@@ -127,7 +127,9 @@ async function getMessages(
         throw new Error('No pull_request found in the payload.')
       }
       //****************************************
-      emailAddresses.push(github.context.payload.pull_request.sender.login)
+      if (github.context.payload.pull_request) {
+        emailAddresses.push(github.context.payload.pull_request.sender.login)
+      }
 
       let message = ''
       // Handle pull request title and body
