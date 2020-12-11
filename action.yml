@@ -27,7 +27,8 @@ inputs:
   accessToken:
     description: 'you must provide GITHUB_TOKEN to this input if checkAllCommitMessages is true'
     required: false
-    default: 'false'  
+    default: 'false'
+if: always()
 runs:
   using: node12
   main: dist/index.js
