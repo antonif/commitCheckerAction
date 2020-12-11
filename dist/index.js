@@ -728,10 +728,12 @@ function run() {
             }
             else {
                 if ((yield commitMessageChecker.checkCommitMessages(checkerArguments)) == false) {
-                    throw new Error('You have errors in your commit with your commit message');
+                    core.info('You have errors in your commit with your commit message');
+                    throw new Error();
                 }
                 if ((yield emailChecker.checkCommitAuthorEmail(checkerArguments)) == false) {
-                    throw new Error('You have errors in your commit with your email');
+                    core.info('You have errors in your commit with your email');
+                    throw new Error();
                 }
             }
         }
