@@ -45,7 +45,6 @@ async function run(): Promise<void> {
     core.setFailed(error)
   }
 }
-
 /**
  * Main entry point
  */
