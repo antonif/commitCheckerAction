@@ -370,9 +370,8 @@ function checkCommitMessages(args) {
         }
         // Throw error in case of failed test
         if (!result) {
-            core.info(args.error);
+            throw args.error;
         }
-        return result;
     });
 }
 exports.checkCommitMessages = checkCommitMessages;
@@ -727,14 +726,8 @@ function run() {
                 core.info(`No commits found in the payload, skipping check.`);
             }
             else {
-                if ((yield commitMessageChecker.checkCommitMessages(checkerArguments)) == false) {
-                    core.info('You have errors in your commit with your commit message');
-                    throw new Error();
-                }
-                if ((yield emailChecker.checkCommitAuthorEmail(checkerArguments)) == false) {
-                    core.info('You have errors in your commit with your email');
-                    throw new Error();
-                }
+                yield commitMessageChecker.checkCommitMessages(checkerArguments);
+                yield emailChecker.checkCommitAuthorEmail(checkerArguments);
             }
         }
         catch (error) {
@@ -800,12 +793,10 @@ function checkCommitAuthorEmail(args) {
             if (regex.test(email) != true) {
                 core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
-                core.info('Email is not supported!');
-                return false;
+                throw 'Email is not supported!';
             }
             core.info(`Author email address is: "${email}"`);
         }
-        return true;
     });
 }
 exports.checkCommitAuthorEmail = checkCommitAuthorEmail;
