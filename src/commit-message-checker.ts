@@ -36,6 +36,7 @@ import {ICheckerArguments} from './input-helper'
 export async function checkCommitMessages(
   args: ICheckerArguments
 ): Promise<void> {
+  const messageRegex = new RegExp(args.pattern, args.flags)
   // Check arguments
   if (args.pattern.length === 0) {
     throw new Error(`PATTERN not defined.`)
@@ -68,7 +69,7 @@ export async function checkCommitMessages(
   core.info(`Checking commit messages against "${args.pattern}"...`)
 
   for (const message of args.lists.messages) {
-    if (checkMessage(message, args.pattern, args.flags)) {
+    if (messageRegex.test(message)) {
       core.info(`- OK: "${message}"`)
     } else {
       core.info(`- failed: "${message}"`)
@@ -89,11 +90,3 @@ export async function checkCommitMessages(
  * @param     pattern regex pattern for the check.
  * @returns   boolean
  */
-function checkMessage(
-  message: string,
-  pattern: string,
-  flags: string
-): boolean {
-  const regex = new RegExp(pattern, flags)
-  return regex.test(message)
-}
