@@ -79,7 +79,7 @@ export async function checkCommitMessages(
 
   // Throw error in case of failed test
   if (!result) {
-    throw args.error
+    throw new Error(args.error)
   }
 }
 

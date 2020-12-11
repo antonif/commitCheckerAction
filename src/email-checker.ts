@@ -10,7 +10,7 @@ export async function checkCommitAuthorEmail(
         if (regex.test(email) != true) {
             core.info(`Your email address is: "${email}"`)
             core.info('Incorrect email address!')
-            throw 'Email is not supported!'
+            throw new Error('Email is not supported!')
         }
         core.info(`Author email address is: "${email}"`)
     }
