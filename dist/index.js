@@ -333,6 +333,7 @@ const core = __importStar(__webpack_require__(470));
  */
 function checkCommitMessages(args) {
     return __awaiter(this, void 0, void 0, function* () {
+        const messageRegex = new RegExp(args.pattern, args.flags);
         // Check arguments
         if (args.pattern.length === 0) {
             throw new Error(`PATTERN not defined.`);
@@ -359,7 +360,7 @@ function checkCommitMessages(args) {
         let result = true;
         core.info(`Checking commit messages against "${args.pattern}"...`);
         for (const message of args.lists.messages) {
-            if (checkMessage(message, args.pattern, args.flags)) {
+            if (messageRegex.test(message)) {
                 core.info(`- OK: "${message}"`);
             }
             else {
@@ -380,11 +381,7 @@ exports.checkCommitMessages = checkCommitMessages;
  * @param     message message to check against the pattern.
  * @param     pattern regex pattern for the check.
  * @returns   boolean
- */
-function checkMessage(message, pattern, flags) {
-    const regex = new RegExp(pattern, flags);
-    return regex.test(message);
-}
+ */ 
 
 
 /***/ }),
@@ -791,8 +788,9 @@ exports.checkCommitAuthorEmail = void 0;
 const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
+        const regex = new RegExp(args.emailPattern, args.flags);
         for (let email of args.lists.emailAddresses) {
-            if (checkEmail(email, args.emailPattern, args.flags) != true) {
+            if (regex.test(email) != true) {
                 core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
                 throw new Error('Email is not supported!');
@@ -802,10 +800,6 @@ function checkCommitAuthorEmail(args) {
     });
 }
 exports.checkCommitAuthorEmail = checkCommitAuthorEmail;
-function checkEmail(email, emailPattern, flags) {
-    const regex = new RegExp(emailPattern, flags);
-    return regex.test(email);
-}
 
 
 /***/ }),
