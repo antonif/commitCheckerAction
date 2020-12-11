@@ -370,7 +370,7 @@ function checkCommitMessages(args) {
         }
         // Throw error in case of failed test
         if (!result) {
-            throw args.error;
+            throw new Error(args.error);
         }
     });
 }
@@ -793,7 +793,7 @@ function checkCommitAuthorEmail(args) {
             if (regex.test(email) != true) {
                 core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
-                throw 'Email is not supported!';
+                throw new Error('Email is not supported!');
             }
             core.info(`Author email address is: "${email}"`);
         }
