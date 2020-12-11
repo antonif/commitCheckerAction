@@ -35,7 +35,7 @@ import {ICheckerArguments} from './input-helper'
  */
 export async function checkCommitMessages(
   args: ICheckerArguments
-): Promise<void> {
+): Promise<boolean> {
   const messageRegex = new RegExp(args.pattern, args.flags)
   // Check arguments
   if (args.pattern.length === 0) {
@@ -79,8 +79,9 @@ export async function checkCommitMessages(
 
   // Throw error in case of failed test
   if (!result) {
-    throw new Error(args.error)
+    core.info(args.error)
   }
+  return result
 }
 
 /**

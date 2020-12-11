@@ -32,14 +32,17 @@ async function run(): Promise<void> {
     if (checkerArguments.lists.messages.length === 0) {
       core.info(`No commits found in the payload, skipping check.`)
     } else {
-      await commitMessageChecker.checkCommitMessages(checkerArguments)
-      await emailChecker.checkCommitAuthorEmail(checkerArguments)
+      if(await commitMessageChecker.checkCommitMessages(checkerArguments) == false){
+        throw new Error('You have errors in your commit with your commit message')
+      }
+      if(await emailChecker.checkCommitAuthorEmail(checkerArguments) == false){
+        throw new Error('You have errors in your commit with your email')
+      }
     }
   } catch (error) {
     core.setFailed(error)
   }
 }
-
 /**
  * Main entry point
  */
