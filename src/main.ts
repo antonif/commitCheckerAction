@@ -34,11 +34,16 @@ async function run(): Promise<void> {
     } else {
       await commitMessageChecker.checkCommitMessages(checkerArguments)
       await emailChecker.checkCommitAuthorEmail(checkerArguments)
+      if(checkerArguments.errorMessages.length != 0) {
+        inputHelper.listErrors(checkerArguments.errorMessages)
+        throw new Error('- WARNING: -You have failed some tests!')
+      }
     }
   } catch (error) {
     core.setFailed(error)
   }
 }
+
 /**
  * Main entry point
  */

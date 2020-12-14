@@ -35,6 +35,7 @@ export interface ICheckerArguments {
   flags: string
   error: string
   lists: CheckerLists
+  errorMessages: string[]
 }
 
 interface CheckerLists {
@@ -311,3 +312,11 @@ async function getCommitMessagesFromPullRequest(
 
   return messages
 }
+
+export async function listErrors(
+  errorList: string[]
+): Promise<void> {
+    for (const message in errorList) {
+        console.log('${message}\n')
+    }
+  }

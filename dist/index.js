@@ -370,7 +370,7 @@ function checkCommitMessages(args) {
         }
         // Throw error in case of failed test
         if (!result) {
-            throw new Error(args.error);
+            args.errorMessages.push(args.error);
         }
     });
 }
@@ -728,6 +728,10 @@ function run() {
             else {
                 yield commitMessageChecker.checkCommitMessages(checkerArguments);
                 yield emailChecker.checkCommitAuthorEmail(checkerArguments);
+                if (checkerArguments.errorMessages.length != 0) {
+                    inputHelper.listErrors(checkerArguments.errorMessages);
+                    throw new Error('- WARNING: -You have failed some tests!');
+                }
             }
         }
         catch (error) {
@@ -793,7 +797,7 @@ function checkCommitAuthorEmail(args) {
             if (regex.test(email) != true) {
                 core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
-                throw new Error('Email is not supported!');
+                args.errorMessages.push('Email is not supported!');
             }
             core.info(`Author email address is: "${email}"`);
         }
@@ -4863,7 +4867,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInputs = void 0;
+exports.listErrors = exports.getInputs = void 0;
 /**
  * Imports
  */
@@ -5071,6 +5075,14 @@ function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, reposito
         return messages;
     });
 }
+function listErrors(errorList) {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (const message in errorList) {
+            console.log('${message}\n');
+        }
+    });
+}
+exports.listErrors = listErrors;
 
 
 /***/ }),
