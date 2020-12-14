@@ -74,7 +74,6 @@ export async function checkCommitMessages(
     }
   }
 }
-
 /**
  * Checks the message against the regex pattern.
  *
