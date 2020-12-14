@@ -797,7 +797,7 @@ function checkCommitAuthorEmail(args) {
             if (regex.test(email) != true) {
                 core.info(`Your email address is: "${email}"`);
                 core.info('Incorrect email address!');
-                args.errorMessages.push('Email is not supported!');
+                args.errorMessages.push(email);
             }
             core.info(`Author email address is: "${email}"`);
         }
