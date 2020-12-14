@@ -370,7 +370,7 @@ function checkCommitMessages(args) {
         }
         // Throw error in case of failed test
         if (!result) {
-            args.errorMessages.push('${args.error}');
+            args.errorMessages.push(args.error);
         }
     });
 }
@@ -795,7 +795,7 @@ function checkCommitAuthorEmail(args) {
         const regex = new RegExp(args.emailPattern, args.flags);
         for (let email of args.lists.emailAddresses) {
             if (regex.test(email) != true) {
-                args.errorMessages.push('Incorrect email address: "${email}"');
+                args.errorMessages.push(email);
             }
             core.info(`Author email address is: "${email}"`);
         }
