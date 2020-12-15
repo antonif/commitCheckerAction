@@ -71,10 +71,10 @@ export async function checkCommitMessages(
       core.info(`- OK: "${message}"`)
     } else {
       core.info(`- failed: "${message}"`)
-      args.errorMessages.push(args.error)
+      errorList.push(args.error)
     }
   }
-  //args.errorMessages = errorList
+  args.errorMessages = errorList
 }
 /**
  * Checks the message against the regex pattern.
