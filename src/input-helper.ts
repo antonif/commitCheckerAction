@@ -316,7 +316,7 @@ async function getCommitMessagesFromPullRequest(
 export async function listErrors(
   errorList: string[]
 ): Promise<void> {
-    for (const message in errorList) {
+    for (let message of errorList) {
         console.log('"${message}"\n')
     }
   }
