@@ -365,10 +365,10 @@ function checkCommitMessages(args) {
             }
             else {
                 core.info(`- failed: "${message}"`);
-                args.errorMessages.push(args.error);
+                errorList.push(args.error);
             }
         }
-        //args.errorMessages = errorList
+        args.errorMessages = errorList;
     });
 }
 exports.checkCommitMessages = checkCommitMessages;

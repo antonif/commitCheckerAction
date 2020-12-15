@@ -118,7 +118,6 @@ async function getMessages(
   core.debug(
     ` - pullRequestOptions: ${JSON.stringify(pullRequestOptions, null, 2)}`
   )
-
   const messagesList: string[] = []
   const emailAddressList: string[] = []
   const twoLists = {} as CheckerLists
