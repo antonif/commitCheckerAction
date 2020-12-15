@@ -333,6 +333,7 @@ const core = __importStar(__webpack_require__(470));
  */
 function checkCommitMessages(args) {
     return __awaiter(this, void 0, void 0, function* () {
+        const errorList = Array();
         const messageRegex = new RegExp(args.pattern, args.flags);
         // Check arguments
         if (args.pattern.length === 0) {
@@ -364,9 +365,10 @@ function checkCommitMessages(args) {
             }
             else {
                 core.info(`- failed: "${message}"`);
-                args.errorMessages.push(args.error);
+                errorList.push(args.error);
             }
         }
+        args.errorMessages = errorList;
     });
 }
 exports.checkCommitMessages = checkCommitMessages;
@@ -788,10 +790,12 @@ const core = __importStar(__webpack_require__(470));
 function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         const regex = new RegExp(args.emailPattern, args.flags);
+        const errorList = Array();
         for (let email of args.lists.emailAddresses) {
             if (regex.test(email) != true) {
-                args.errorMessages.push(email);
+                errorList.push(`Wrong email address: "${email}"`);
             }
+            args.errorMessages = errorList;
             core.info(`Author email address is: "${email}"`);
         }
     });
