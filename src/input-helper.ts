@@ -317,6 +317,6 @@ export async function listErrors(
   errorList: string[]
 ): Promise<void> {
     for (const message in errorList) {
-        console.log('${message}\n')
+        console.log('"${message}"\n')
     }
   }
