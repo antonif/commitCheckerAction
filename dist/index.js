@@ -794,10 +794,10 @@ function checkCommitAuthorEmail(args) {
         for (let email of args.lists.emailAddresses) {
             if (regex.test(email) != true) {
                 errorList.push(`Wrong email address: "${email}"`);
-                args.errorMessages = errorList;
             }
             core.info(`Author email address is: "${email}"`);
         }
+        args.errorMessages = errorList;
     });
 }
 exports.checkCommitAuthorEmail = checkCommitAuthorEmail;
