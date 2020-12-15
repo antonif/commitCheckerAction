@@ -11,7 +11,6 @@ export async function checkCommitAuthorEmail(
         if (regex.test(email) != true) {
             errorList.push(`Wrong email address: "${email}"`)
         }
-        core.info(`Author email address is: "${email}"`)
     }
     args.errorMessages = errorList
 }
