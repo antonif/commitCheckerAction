@@ -365,10 +365,10 @@ function checkCommitMessages(args) {
             }
             else {
                 core.info(`- failed: "${message}"`);
-                errorList.push(args.error);
+                args.errorMessages.push(args.error);
             }
         }
-        args.errorMessages = errorList;
+        //args.errorMessages = errorList
     });
 }
 exports.checkCommitMessages = checkCommitMessages;
@@ -773,10 +773,10 @@ function checkCommitAuthorEmail(args) {
         const errorList = Array();
         for (let email of args.lists.emailAddresses) {
             if (regex.test(email) != true) {
-                errorList.push(`Wrong email address: "${email}"`);
+                args.errorMessages.push(`Wrong email address: "${email}"`);
             }
         }
-        args.errorMessages = errorList;
+        //args.errorMessages = errorList
     });
 }
 exports.checkCommitAuthorEmail = checkCommitAuthorEmail;

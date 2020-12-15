@@ -9,8 +9,8 @@ export async function checkCommitAuthorEmail(
     const errorList = Array<string>();
     for (let email of args.lists.emailAddresses) {
         if (regex.test(email) != true) {
-            errorList.push(`Wrong email address: "${email}"`)
+            args.errorMessages.push(`Wrong email address: "${email}"`)
         }
     }
-    args.errorMessages = errorList
+    //args.errorMessages = errorList
 }
