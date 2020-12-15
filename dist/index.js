@@ -5075,7 +5075,7 @@ function getCommitMessagesFromPullRequest(accessToken, repositoryOwner, reposito
 function listErrors(errorList) {
     return __awaiter(this, void 0, void 0, function* () {
         for (let message of errorList) {
-            console.log('"${message}"\n');
+            core.debug(`Incorrect email address: ${message}`);
         }
     });
 }

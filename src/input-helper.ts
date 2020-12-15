@@ -317,6 +317,6 @@ export async function listErrors(
   errorList: string[]
 ): Promise<void> {
     for (let message of errorList) {
-        console.log('"${message}"\n')
+        core.debug(`Incorrect email address: ${message}`)
     }
   }
