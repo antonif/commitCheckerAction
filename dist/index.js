@@ -791,7 +791,6 @@ function checkCommitAuthorEmail(args) {
     return __awaiter(this, void 0, void 0, function* () {
         if (github.context.eventName != 'pull_request') {
             const regex = new RegExp(args.emailPattern, args.flags);
-            const errorList = Array();
             for (let email of args.lists.emailAddresses) {
                 if (regex.test(email) != true) {
                     args.errorMessages.push(`Wrong email address: "${email}"`);
